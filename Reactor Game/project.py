@@ -2,8 +2,8 @@ import pygame
 import sys
 import button_module
 import lever_module
-import tempurature_module
-import pressure_module
+import text_display_module
+import manager_module
 
 def main():
     pygame.init()
@@ -36,13 +36,14 @@ def main():
     for button in vent_list:
         inputs.append(button)
 
-    displays = []
+    display_list = [
+        text_display_module.Text_Display(screen, 800, 50, "Tempurature: "),
+        text_display_module.Text_Display(screen, 800, 150, "Pressure: "),
+        text_display_module.Text_Display(screen, 800, 100, "Temp Change Rate: ", True),
+        text_display_module.Text_Display(screen, 800, 200, "Pressure Change Rate: ", True)
+    ]
 
-    tempurature_display = tempurature_module.Tempurature(screen, 800, 50, 7000, heat_list, cool_list)
-    pressure_display = pressure_module.Pressure(screen, 800, 150, 4000, heat_list, vent_list, tempurature_display)
-
-    displays.append(tempurature_display)
-    displays.append(pressure_display)
+    manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure
 
     while True:
         clock.tick(60)
@@ -63,11 +64,9 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
-                    tempurature_display.set_temp()
+                    manager.set_temp(int(input("Set Temp: ")))
                 if event.key == pygame.K_p:
-                    pressure_display.set_pressure()
-
-
+                    manager.set_pressure(int(input("Set Pressure: ")))
 
 
         screen.fill((255, 255, 255))
@@ -75,12 +74,11 @@ def main():
 
         for _input in inputs:
             if isinstance(_input, lever_module.Lever) and _input.is_held():
-                _input.set_y(pygame.mouse.get_pos()[1])
+                _input.set_height(pygame.mouse.get_pos()[1])
             _input.draw()
 
-        for display in displays:
-            display.update_values()
-            display.draw()
+        manager.calculate_values()
+        manager.update_displays()
 
         pygame.display.update()
 

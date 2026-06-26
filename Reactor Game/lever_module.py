@@ -21,8 +21,13 @@ class Lever():
     def is_held(self):
         return self.held
     
-    def set_y(self, y):
-        self.y = y
+    def set_height(self, y):
+        if y < min(self.steps_y_list):
+            self.y = min(self.steps_y_list)
+        elif y > max(self.steps_y_list):
+            self.y = max(self.steps_y_list)
+        else:
+            self.y = y
 
     def on_click(self):
         self.held = True
