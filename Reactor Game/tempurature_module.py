@@ -18,7 +18,7 @@ class Tempurature():
         return self.temp
 
     def update_values(self):
-        reduction_factor = 100 #to balance the game
+        reduction_factor = 33 #to balance the game
         for heat_lever in self.heat_levers:
             self.temp += (heat_lever.get_position() + 1) / reduction_factor
         for cool_lever in self.cool_levers:

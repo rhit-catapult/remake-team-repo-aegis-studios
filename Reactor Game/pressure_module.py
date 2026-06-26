@@ -15,7 +15,7 @@ class Pressure():
         self.pressure = int(input("Set Pressure: "))
 
     def update_values(self):
-        reduction_factor = 100 #to balance the game
+        reduction_factor = 33 #to balance the game
         for heat_lever in self.heat_levers:
             self.pressure += ((heat_lever.get_position() + 1) / 5) / reduction_factor
         for vent_button in self.vent_buttons:
