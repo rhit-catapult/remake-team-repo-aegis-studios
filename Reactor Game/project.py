@@ -20,6 +20,8 @@ def main():
 
     inputs = []
 
+    bg1 = pygame.image.load("bg1.png")
+
     for heat_lever in range(6):
         heat_list.append(lever_module.Lever(screen, 400 + 100*heat_lever, "lever_placeholder.png", heat_steps_list, 0))
     for cool_lever in range(3):
@@ -73,6 +75,8 @@ def main():
 
 
         screen.fill((255, 255, 255))
+
+        screen.blit(bg1, (0, 0))
 
         #call a different file that draws all stationaries here
 
