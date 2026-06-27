@@ -12,8 +12,8 @@ def main():
     clock = pygame.time.Clock()
 
 
-    heat_steps_list = [500, 400, 300, 200, 100]
-    cool_steps_list = [600, 500, 400, 300, 200, 100]
+    heat_steps_list = [635, 620, 605, 590, 575]
+    cool_steps_list = [650, 635, 620, 605, 590, 575]
     heat_list = []
     cool_list = []
     vent_list = []
@@ -23,11 +23,11 @@ def main():
     bg1 = pygame.image.load("bg1.png")
 
     for heat_lever in range(6):
-        heat_list.append(lever_module.Lever(screen, 400 + 100*heat_lever, "lever_placeholder.png", heat_steps_list, 0))
+        heat_list.append(lever_module.Lever(screen, 30 + 50*heat_lever, "heat_lever.png", heat_steps_list, 0))
     for cool_lever in range(3):
-        cool_list.append(lever_module.Lever(screen, 100*cool_lever, "cool_lever_placeholder.png", cool_steps_list, 0))
+        cool_list.append(lever_module.Lever(screen, 900 + 50*cool_lever, "cool_lever.png", cool_steps_list, 0))
     for vent in range(3):
-        vent_list.append(button_module.Button(screen, 500 + 110*vent, 600, "red_placeholder.png", "green_placeholder.png", True))
+        vent_list.append(button_module.Button(screen, 515 + 90*vent, 605, "unpressed_button.png", "pressed_button.png", True))
 
 
     
@@ -39,13 +39,13 @@ def main():
         inputs.append(button)
 
     display_list = [
-        text_display_module.Text_Display(screen, 800, 0, "Power Generated: "),
-        text_display_module.Text_Display(screen, 800, 50, "Power Change Rate: ", True), 
-        text_display_module.Text_Display(screen, 800, 100, "Tempurature: "),
-        text_display_module.Text_Display(screen, 800, 150, "Temp Change Rate: ", True),
-        text_display_module.Text_Display(screen, 800, 200, "Pressure: "),  
-        text_display_module.Text_Display(screen, 800, 250, "Pressure Change Rate: ", True),
-        
+        text_display_module.Text_Display(screen, 100, 50, "Power Generated: ", "power_round"),
+        text_display_module.Text_Display(screen, 100, 100, "Power Change Rate: ", "power_round"), 
+        text_display_module.Text_Display(screen, 500, 50, "Tempurature: "),
+        text_display_module.Text_Display(screen, 500, 100, "Temp Change Rate: ", "round"),
+        text_display_module.Text_Display(screen, 900, 50, "Pressure: "),  
+        text_display_module.Text_Display(screen, 900, 100, "Pressure Change Rate: ", "round"),
+        text_display_module.Text_Display(screen, 1050, 650, "Time Left: ")    
     ]
 
     manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure
@@ -74,11 +74,7 @@ def main():
                     manager.set_pressure(int(input("Set Pressure: ")))
 
 
-        screen.fill((255, 255, 255))
-
         screen.blit(bg1, (0, 0))
-
-        #call a different file that draws all stationaries here
 
 
         for _input in inputs:

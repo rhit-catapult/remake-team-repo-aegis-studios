@@ -17,12 +17,14 @@ class Manager():
         self.vent_buttons = vent_buttons
         self.display_objects = display_objects
         self.power = 0
-        self.reduction_factor = 33                                                  # higher number = slower changes
+        self.reduction_factor = 33                  # higher number = slower changes
+        self.timer = 500 * 60                       # 500 seconds timer  
 
     def calculate_values(self):
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
+        self.advance_timer()
 
     def calculate_temp(self):
         self.change_in_temp = 0
@@ -55,6 +57,9 @@ class Manager():
 
         self.power += self.change_in_power / self.reduction_factor
 
+    def advance_timer(self):
+        self.timer -= 1
+
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
         self.display_objects[1].set_value(self.change_in_power * 60 / self.reduction_factor)
@@ -62,6 +67,7 @@ class Manager():
         self.display_objects[3].set_value(self.change_in_temp * 60 / self.reduction_factor)
         self.display_objects[4].set_value(self.pressure)
         self.display_objects[5].set_value(self.change_in_pressure * 60 / self.reduction_factor)
+        self.display_objects[6].set_value(self.timer / 60)
         
 
         for display in self.display_objects:
