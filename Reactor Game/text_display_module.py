@@ -13,14 +13,6 @@ class Text_Display():
     def set_value(self, value):
         self.value = value
 
-
-    def power_round_recursion(self, input_int, depth):
-        suffix_list = [" W", " kW", " mW", " gW"]
-        if input_int > 100000:
-            input_int /= 1000
-            return self.power_round_recursion(input_int, depth+1)
-        return str(int(input_int)) + suffix_list[depth]
-
     def draw(self):
         suffix = ""
         if self.special == "round":
@@ -28,7 +20,10 @@ class Text_Display():
         else:
             display_value = int(self.value)
             if self.special == "power_round":
-                display_value = self.power_round_recursion(display_value, 0)        #visual starting power suffix
+                display_value = display_value / 100
+                display_value = int(display_value)
+                display_value = display_value / 10
+                suffix = "gW"
 
         value_font = pygame.font.SysFont("comicsansms", 24)
         value_display = value_font.render(self.title + str(display_value) + suffix, True, (0,0,0))

@@ -4,6 +4,7 @@ import button_module
 import lever_module
 import text_display_module
 import manager_module
+import backrounds_module
 
 def main():
     pygame.init()
@@ -19,8 +20,6 @@ def main():
     vent_list = []
 
     inputs = []
-
-    bg1 = pygame.image.load("bg1.png")
 
     for heat_lever in range(6):
         heat_list.append(lever_module.Lever(screen, 30 + 50*heat_lever, "heat_lever.png", heat_steps_list, 0))
@@ -48,6 +47,10 @@ def main():
         text_display_module.Text_Display(screen, 1050, 650, "Time Left: ")    
     ]
 
+
+    backround = backrounds_module.Backrounds(screen)
+
+
     manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure
 
     while True:
@@ -74,8 +77,12 @@ def main():
                     manager.set_pressure(int(input("Set Pressure: ")))
 
 
-        screen.blit(bg1, (0, 0))
-
+        backround.reactor_backround_()
+        backround.lasers_()
+        backround.laser_bases_()
+        backround.bottom_panel_()
+        backround.top_panel_()
+        backround.core_()
 
         for _input in inputs:
             if isinstance(_input, lever_module.Lever) and _input.is_held():
