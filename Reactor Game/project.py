@@ -37,10 +37,13 @@ def main():
         inputs.append(button)
 
     display_list = [
-        text_display_module.Text_Display(screen, 800, 50, "Tempurature: "),
-        text_display_module.Text_Display(screen, 800, 150, "Pressure: "),
-        text_display_module.Text_Display(screen, 800, 100, "Temp Change Rate: ", True),
-        text_display_module.Text_Display(screen, 800, 200, "Pressure Change Rate: ", True)
+        text_display_module.Text_Display(screen, 800, 0, "Power Generated: "),
+        text_display_module.Text_Display(screen, 800, 50, "Power Change Rate: ", True), 
+        text_display_module.Text_Display(screen, 800, 100, "Tempurature: "),
+        text_display_module.Text_Display(screen, 800, 150, "Temp Change Rate: ", True),
+        text_display_module.Text_Display(screen, 800, 200, "Pressure: "),  
+        text_display_module.Text_Display(screen, 800, 250, "Pressure Change Rate: ", True),
+        
     ]
 
     manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure

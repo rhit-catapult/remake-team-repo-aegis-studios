@@ -1,3 +1,12 @@
+#READ ME*******************************************************************
+#READ ME*******************************************************************
+#READ ME*******************************************************************
+#READ ME*******************************************************************
+
+#All comments on the right side show what numbers can be adjusted for balancing
+#The reduction factor is used for balancing everything to line up with the 7k-27k goal
+#Everything else adjusts how much a factor affects the variables change
+
 class Manager():
 
     def __init__(self, start_temp, start_pressure, heat_levers, cool_levers, vent_buttons, display_objects):
@@ -7,26 +16,26 @@ class Manager():
         self.cool_levers = cool_levers
         self.vent_buttons = vent_buttons
         self.display_objects = display_objects
+        self.power = 0
         self.reduction_factor = 33                                                  # higher number = slower changes
 
     def calculate_values(self):
         self.calculate_temp()
         self.calculate_pressure()
+        self.track_power()
 
     def calculate_temp(self):
         self.change_in_temp = 0
 
         for heat_lever in self.heat_levers:
-            self.change_in_temp += heat_lever.get_position() + 1     # +1 needed to give heating levers a minimum value of 1
+            self.change_in_temp += heat_lever.get_position() + 1
 
         for cool_lever in self.cool_levers:
-            self.change_in_temp -= cool_lever.get_position() *2      # *2 to give cooling levers twice the effect of a heating lever
+            self.change_in_temp -= cool_lever.get_position() *2
 
         self.change_in_temp += self.pressure / 1000                  # adds more tempurature based on pressure
 
         self.temp += self.change_in_temp / self.reduction_factor
-
-        self.change_in_temp = self.change_in_temp * 60 / 33 
 
     def calculate_pressure(self):
         self.change_in_pressure = 0
@@ -40,13 +49,20 @@ class Manager():
 
         self.pressure += self.change_in_pressure / self.reduction_factor
 
-        self.change_in_pressure = self.change_in_pressure * 60 / 33
+    def track_power(self):
+        self.change_in_power = 0
+        self.change_in_power += self.temp
+
+        self.power += self.change_in_power / self.reduction_factor
 
     def update_displays(self):
-        self.display_objects[0].set_value(self.temp)
-        self.display_objects[1].set_value(self.pressure)
-        self.display_objects[2].set_value(self.change_in_temp)
-        self.display_objects[3].set_value(self.change_in_pressure)
+        self.display_objects[0].set_value(self.power)
+        self.display_objects[1].set_value(self.change_in_power * 60 / 33)
+        self.display_objects[2].set_value(self.temp)
+        self.display_objects[3].set_value(self.change_in_temp * 60 / 33)
+        self.display_objects[4].set_value(self.pressure)
+        self.display_objects[5].set_value(self.change_in_pressure * 60 / 33)
+        
 
         for display in self.display_objects:
             display.draw()
