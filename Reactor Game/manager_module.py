@@ -3,9 +3,9 @@
 #READ ME*******************************************************************
 #READ ME*******************************************************************
 
-#All comments on the right side show what numbers can be adjusted for balancing
-#The reduction factor is used for balancing everything to line up with the 7k-27k goal
-#Everything else adjusts how much a factor affects the variables change
+# All comments on the right side show what numbers can be adjusted for balancing
+# The reduction factor is used for balancing everything to line up with the 7k-27k goal
+# Everything else adjusts how much a factor affects the variables change
 
 class Manager():
 
@@ -22,7 +22,7 @@ class Manager():
     def calculate_values(self):
         self.calculate_temp()
         self.calculate_pressure()
-        self.track_power()
+        self.calculate_power()
 
     def calculate_temp(self):
         self.change_in_temp = 0
@@ -49,7 +49,7 @@ class Manager():
 
         self.pressure += self.change_in_pressure / self.reduction_factor
 
-    def track_power(self):
+    def calculate_power(self):
         self.change_in_power = 0
         self.change_in_power += self.temp
 
@@ -57,18 +57,18 @@ class Manager():
 
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
-        self.display_objects[1].set_value(self.change_in_power * 60 / 33)
+        self.display_objects[1].set_value(self.change_in_power * 60 / self.reduction_factor)
         self.display_objects[2].set_value(self.temp)
-        self.display_objects[3].set_value(self.change_in_temp * 60 / 33)
+        self.display_objects[3].set_value(self.change_in_temp * 60 / self.reduction_factor)
         self.display_objects[4].set_value(self.pressure)
-        self.display_objects[5].set_value(self.change_in_pressure * 60 / 33)
+        self.display_objects[5].set_value(self.change_in_pressure * 60 / self.reduction_factor)
         
 
         for display in self.display_objects:
             display.draw()
 
     
-    #functions below here are used for temporary testing purposes:
+    # functions below here are used for temporary testing purposes:
 
     def set_temp(self, num):
         self.temp = num
