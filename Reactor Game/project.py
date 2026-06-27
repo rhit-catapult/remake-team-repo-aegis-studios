@@ -74,6 +74,8 @@ def main():
 
         screen.fill((255, 255, 255))
 
+        #call a different file that draws all stationaries here
+
 
         for _input in inputs:
             if isinstance(_input, lever_module.Lever) and _input.is_held():
