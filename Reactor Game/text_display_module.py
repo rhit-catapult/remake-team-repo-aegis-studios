@@ -23,7 +23,7 @@ class Text_Display():
                 display_value = display_value / 100
                 display_value = int(display_value)
                 display_value = display_value / 10
-                suffix = "gW"
+                suffix = " gW"
 
         value_font = pygame.font.SysFont("comicsansms", 24)
         value_display = value_font.render(self.title + str(display_value) + suffix, True, (0,0,0))

@@ -70,3 +70,13 @@ class Backrounds():
 
     def core_(self):
         self.screen.blit(self.core, self.core_rect)
+
+
+
+
+
+
+
+
+
+
