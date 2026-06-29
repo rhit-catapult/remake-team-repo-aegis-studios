@@ -73,6 +73,7 @@ class Manager():
                 self.c_size += 1.5
             self.background.core_()
             self.background.reactor_background_F_()
+            self.background.yellow_filter_()
             self.calculate_temp()
             self.calculate_pressure()
             self.calculate_power()
