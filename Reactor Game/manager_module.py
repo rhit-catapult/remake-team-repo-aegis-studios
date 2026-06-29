@@ -8,7 +8,7 @@
 # Everything else adjusts how much a factor affects the variables change
 
 import backgrounds_module
-import pygame
+import music_module
 
 class Manager():
 
@@ -25,14 +25,14 @@ class Manager():
         self.reduction_factor = 33                  # higher number = slower changes
         self.timer = 500 * 60                       # 500 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
+        self.music = music_module.Music()
         self.l_size = 0
         self.c_size = 0
         self.active_filter = "none"
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
-        pygame.mixer.music.load("non-operational1.mp3")
-        pygame.mixer.music.play(-1)
+        self.music.set_music("non-operational")
 
     def calculate_values(self):
         self.active_filter = "none"
