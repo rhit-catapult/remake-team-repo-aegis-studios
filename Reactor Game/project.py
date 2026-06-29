@@ -8,7 +8,7 @@ import backgrounds_module
 
 def main():
     pygame.init()
-    pygame.display.set_caption("Cool Project")
+    pygame.display.set_caption("Starfall: Hydra - Reactor Operations")
     screen = pygame.display.set_mode((1280, 720))
     clock = pygame.time.Clock()
 
@@ -40,13 +40,13 @@ def main():
         inputs.append(button)
 
     display_list = [
-        text_display_module.Text_Display(screen, 100, 50, "Power Generated: ", "power_round"),
-        text_display_module.Text_Display(screen, 100, 100, "Power Change Rate: ", "power_round"), 
-        text_display_module.Text_Display(screen, 500, 50, "Tempurature: "),
-        text_display_module.Text_Display(screen, 500, 100, "Temp Change Rate: ", "round"),
-        text_display_module.Text_Display(screen, 900, 50, "Pressure: "),  
-        text_display_module.Text_Display(screen, 900, 100, "Pressure Change Rate: ", "round"),
-        text_display_module.Text_Display(screen, 1050, 650, "Time Left: ")    
+        text_display_module.Text_Display(screen, 485, 40, "Power Generated: ", "power_round"),
+        text_display_module.Text_Display(screen, 485, 60, "Power Generation Rate: ", "power_round"), 
+        text_display_module.Text_Display(screen, 485, 80, "Temperature: ", "temp"),
+        text_display_module.Text_Display(screen, 485, 100, "Temp Change Rate: ", "temp_round"),
+        text_display_module.Text_Display(screen, 835, 20, "Pressure: ", "pressure"),
+        text_display_module.Text_Display(screen, 835, 40, "Pressure Change Rate: ", "pressure_round"),
+        text_display_module.Text_Display(screen, 485, 20, "Remaining Shift Time: ", "time_left")    
     ]
 
 

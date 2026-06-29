@@ -15,16 +15,30 @@ class Text_Display():
 
     def draw(self):
         suffix = ""
-        if self.special == "round":
+        if self.special == "temp":
+            display_value = int(self.value)
+            suffix = " K"
+        elif self.special == "temp_round":
             display_value = round(self.value, 3)
+            suffix = " K"
+        elif self.special == "pressure":
+            display_value = int(self.value)
+            suffix = " PSI"
+        elif self.special == "pressure_round":
+            display_value = round(self.value, 3)
+            suffix = " PSI"
+        elif self.special == "power_round":
+            display_value = int(self.value)
+            display_value = display_value / 100
+            display_value = int(display_value)
+            display_value = display_value / 10
+            suffix = " MW"
+        elif self.special == "time_left":
+            display_value = int(self.value)
+            suffix = " s"
         else:
             display_value = int(self.value)
-            if self.special == "power_round":
-                display_value = display_value / 100
-                display_value = int(display_value)
-                display_value = display_value / 10
-                suffix = " gW"
 
-        value_font = pygame.font.SysFont("comicsansms", 24)
-        value_display = value_font.render(self.title + str(display_value) + suffix, True, (0,0,0))
+        value_font = pygame.font.SysFont("calibri", 16)
+        value_display = value_font.render(self.title + str(display_value) + suffix, True, (255,255,255))
         self.screen.blit(value_display, (self.x, self.y))
