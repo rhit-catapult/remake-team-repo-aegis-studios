@@ -31,16 +31,30 @@ class Manager():
         self.calculate_power()
 
     def calculate_values(self):
-        if self.toggle_on.is_pressed():
+        if self.temp < 3000:
             self.background.reactor_background_B_()
-            self.background.lasers_setup_(self.l_size)
-            if self.l_size < 20:
-                self.l_size += 0.5
+            if self.l_size > 0:
+                self.background.lasers_setup_(self.l_size)
+                self.l_size -= 0.3
             self.background.lasers_()
             self.background.laser_bases_()
-            self.background.core_setup_(self.c_size)
+            if self.c_size > 0:
+                self.background.core_setup_(self.c_size)
+                self.c_size -= 1.5
+            self.background.core_()
+            self.background.reactor_background_F_()
+
+        elif self.toggle_on.is_pressed():
+            self.advance_timer()
+            self.background.reactor_background_B_()
+            if self.l_size < 20:
+                self.background.lasers_setup_(self.l_size)
+                self.l_size += 0.3
+            self.background.lasers_()
+            self.background.laser_bases_()
             if self.c_size < 96:
-                self.c_size += 1
+                self.background.core_setup_(self.c_size)
+                self.c_size += 1.5
             self.background.core_()
             self.background.reactor_background_F_()
             self.calculate_temp()

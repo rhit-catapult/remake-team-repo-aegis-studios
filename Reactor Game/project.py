@@ -4,7 +4,6 @@ import button_module
 import lever_module
 import text_display_module
 import manager_module
-import backgrounds_module
 
 def main():
     pygame.init()
