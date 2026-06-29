@@ -19,6 +19,9 @@ class Button():
             self.pressed = not self.pressed
         else:
             self.pressed = True
+
+    def on_release(self):
+        pass
             
     def is_clicked(self, click_x, click_y):
         hitbox = pygame.Rect(self.x, self.y, self.unpressed_image.get_width(), self.unpressed_image.get_height())

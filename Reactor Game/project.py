@@ -65,6 +65,11 @@ def main():
                     if _input.is_clicked(mouse_pos_tuple[0], mouse_pos_tuple[1]):
                         _input.on_click()
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_pos_tuple = pygame.mouse.get_pos()
+                for _input in inputs:
+                    _input.on_release()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
                     manager.set_temp(int(input("Set Temp: ")))

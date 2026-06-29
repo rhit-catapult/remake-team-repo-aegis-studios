@@ -30,20 +30,18 @@ class Manager():
 
     def calculate_values(self):
         if self.toggle_on.is_pressed():
-            self.background.reactor_background_()
+            self.background.reactor_background_B_()
             self.background.lasers_()
             self.background.laser_bases_()
-            self.background.bottom_panel_()
-            self.background.top_panel_()
             self.background.core_()
+            self.background.reactor_background_F_()
             self.calculate_temp()
             self.calculate_pressure()
             self.calculate_power()
         else:
-            self.background.reactor_background_()
+            self.background.reactor_background_B_()
             self.background.laser_bases_()
-            self.background.bottom_panel_()
-            self.background.top_panel_()
+            self.background.reactor_background_F_()
 
     def calculate_temp(self):
         self.change_in_temp = 0

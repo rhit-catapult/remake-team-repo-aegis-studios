@@ -36,12 +36,8 @@ class Backgrounds():
         self.l_rect_300 = self.laser_240.get_rect(center=(700, 463.92))
         self.l_rect_240 = self.laser_300.get_rect(center=(580, 463.92))
 
-
-        self.top_panel = pygame.image.load("panel.png")
-
-        self.bottom_panel = pygame.image.load("panel.png")
-
         self.reactor_backgroundB = pygame.image.load("background1-1.png")
+        
         self.reactor_backgroundF = pygame.image.load("background1-2.png")
 
         self.core = pygame.image.load("core.png")
@@ -67,12 +63,6 @@ class Backgrounds():
         self.screen.blit(self.laser_180, self.l_rect3_180)
         self.screen.blit(self.laser_240, self.l_rect_240)
         self.screen.blit(self.laser_300, self.l_rect_300)
-
-    def top_panel_(self):
-        self.screen.blit(self.top_panel, (0,0))
-
-    def bottom_panel_(self):
-        self.screen.blit(self.bottom_panel, (0,550))
 
     def reactor_background_B_(self):
         self.screen.blit(self.reactor_backgroundB, (0,0))
