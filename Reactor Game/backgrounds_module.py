@@ -1,8 +1,8 @@
-# yes ik its really messy and everythings hardcoded but thats fine because its just the backround, no function
+# yes ik its really messy and everythings hardcoded but thats fine because its just the background, no function
 import pygame
 
 
-class Backrounds():
+class Backgrounds():
 
     def __init__(self, screen):
         self.screen = screen
@@ -37,7 +37,7 @@ class Backrounds():
 
         self.bottom_panel = pygame.image.load("panel.png")
 
-        self.reactor_backround = pygame.image.load("backround1.png")
+        self.reactor_background = pygame.image.load("background1.png")
 
         self.core = pygame.image.load("core.png")
         self.core_rect = self.core.get_rect(center=(640, 360))
@@ -65,8 +65,8 @@ class Backrounds():
     def bottom_panel_(self):
         self.screen.blit(self.bottom_panel, (0,550))
 
-    def reactor_backround_(self):
-        self.screen.blit(self.reactor_backround, (0,0))
+    def reactor_background_(self):
+        self.screen.blit(self.reactor_background, (0,0))
 
     def core_(self):
         self.screen.blit(self.core, self.core_rect)

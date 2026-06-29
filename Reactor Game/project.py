@@ -4,7 +4,7 @@ import button_module
 import lever_module
 import text_display_module
 import manager_module
-import backrounds_module
+import backgrounds_module
 
 def main():
     pygame.init()
@@ -48,7 +48,7 @@ def main():
     ]
 
 
-    backround = backrounds_module.Backrounds(screen)
+    background = backgrounds_module.Backgrounds(screen)
 
 
     manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure
@@ -77,12 +77,12 @@ def main():
                     manager.set_pressure(int(input("Set Pressure: ")))
 
 
-        backround.reactor_backround_()
-        backround.lasers_()
-        backround.laser_bases_()
-        backround.bottom_panel_()
-        backround.top_panel_()
-        backround.core_()
+        background.reactor_background_()
+        background.lasers_()
+        background.laser_bases_()
+        background.bottom_panel_()
+        background.top_panel_()
+        background.core_()
 
         for _input in inputs:
             if isinstance(_input, lever_module.Lever) and _input.is_held():
