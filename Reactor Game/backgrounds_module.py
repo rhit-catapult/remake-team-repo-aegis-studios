@@ -41,7 +41,8 @@ class Backgrounds():
 
         self.bottom_panel = pygame.image.load("panel.png")
 
-        self.reactor_background = pygame.image.load("background1.png")
+        self.reactor_backgroundB = pygame.image.load("background1-1.png")
+        self.reactor_backgroundF = pygame.image.load("background1-2.png")
 
         self.core = pygame.image.load("core.png")
         self.core_rect = self.core.get_rect(center=(640, 360))
@@ -73,8 +74,11 @@ class Backgrounds():
     def bottom_panel_(self):
         self.screen.blit(self.bottom_panel, (0,550))
 
-    def reactor_background_(self):
-        self.screen.blit(self.reactor_background, (0,0))
+    def reactor_background_B_(self):
+        self.screen.blit(self.reactor_backgroundB, (0,0))
+
+    def reactor_background_F_(self):
+        self.screen.blit(self.reactor_backgroundF, (0,0))
 
     def core_(self):
         self.screen.blit(self.core, self.core_rect)
