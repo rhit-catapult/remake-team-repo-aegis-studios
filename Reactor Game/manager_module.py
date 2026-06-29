@@ -24,6 +24,8 @@ class Manager():
         self.reduction_factor = 33                  # higher number = slower changes
         self.timer = 500 * 60                       # 500 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
+        self.l_size = 0
+        self.c_size = 0
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
@@ -31,8 +33,14 @@ class Manager():
     def calculate_values(self):
         if self.toggle_on.is_pressed():
             self.background.reactor_background_B_()
+            self.background.lasers_setup_(self.l_size)
+            if self.l_size < 20:
+                self.l_size += 0.5
             self.background.lasers_()
             self.background.laser_bases_()
+            self.background.core_setup_(self.c_size)
+            if self.c_size < 96:
+                self.c_size += 1
             self.background.core_()
             self.background.reactor_background_F_()
             self.calculate_temp()
