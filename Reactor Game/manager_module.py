@@ -11,7 +11,7 @@ import backgrounds_module
 
 class Manager():
 
-    def __init__(self, screen, start_temp, start_pressure, heat_levers, cool_levers, vent_buttons, display_objects, toggle_on):
+    def __init__(self, screen, start_temp, start_pressure, heat_levers, cool_levers, vent_buttons, display_objects, main_buttons):
         self.screen = screen
         self.temp = start_temp
         self.pressure = start_pressure
@@ -19,7 +19,7 @@ class Manager():
         self.cool_levers = cool_levers
         self.vent_buttons = vent_buttons
         self.display_objects = display_objects
-        self.toggle_on = toggle_on 
+        self.main_buttons = main_buttons
         self.power = 0
         self.reduction_factor = 33                  # higher number = slower changes
         self.timer = 500 * 60                       # 500 seconds timer
@@ -44,7 +44,23 @@ class Manager():
             self.background.core_()
             self.background.reactor_background_F_()
 
-        elif self.toggle_on.is_pressed():
+        elif self.main_buttons[1].is_pressed():
+            if self.temp > 27000 or self.power < 3000000:
+                self.main_buttons[1].set_pressed(False)
+            else:
+                self.background.reactor_background_B_()
+                if self.l_size > 0:
+                    self.background.lasers_setup_(self.l_size)
+                    self.l_size -= 0.1
+                self.background.lasers_()
+                self.background.laser_bases_()
+                if self.c_size > 0:
+                    self.background.core_setup_(self.c_size)
+                    self.c_size -= 0.5
+                self.background.core_()
+                self.background.reactor_background_F_()
+
+        elif self.main_buttons[0].is_pressed():
             self.advance_timer()
             self.background.reactor_background_B_()
             if self.l_size < 20:
@@ -60,6 +76,7 @@ class Manager():
             self.calculate_temp()
             self.calculate_pressure()
             self.calculate_power()
+
         else:
             self.background.reactor_background_B_()
             self.background.laser_bases_()
@@ -120,5 +137,8 @@ class Manager():
     
     def set_pressure(self, num):
         self.pressure = num
+
+    def set_power(self, num):
+        self.power = num
 
 

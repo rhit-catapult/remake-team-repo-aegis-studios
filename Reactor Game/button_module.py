@@ -26,6 +26,9 @@ class Button():
     def is_clicked(self, click_x, click_y):
         hitbox = pygame.Rect(self.x, self.y, self.unpressed_image.get_width(), self.unpressed_image.get_height())
         return hitbox.collidepoint(click_x, click_y)
+    
+    def set_pressed(self, boolean):
+        self.pressed = boolean
 
     def draw(self):
         if self.pressed:

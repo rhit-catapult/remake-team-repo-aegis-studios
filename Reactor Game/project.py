@@ -17,6 +17,7 @@ def main():
     heat_list = []
     cool_list = []
     vent_list = []
+    main_button_list = []
 
     inputs = []
 
@@ -26,17 +27,17 @@ def main():
         cool_list.append(lever_module.Lever(screen, 1105 + 58*cool_lever, "cool_lever.png", cool_steps_list, 0))
     for vent in range(3):
         vent_list.append(button_module.Button(screen, 950.5 + 53*vent, 574, "unpressed_button.png", "pressed_button.png", True))
-
-    toggle_on = (button_module.Button(screen, 625, 619, "unpressed_button.png", "pressed_button.png"))
-    inputs.append(toggle_on)
-
-
+    for main_button in range(2):
+        main_button_list.append(button_module.Button(screen, 594 + 62*main_button, 623, "unpressed_button.png", "pressed_button.png"))
     
+
     for lever in heat_list:
         inputs.append(lever)
     for lever in cool_list:
         inputs.append(lever)
     for button in vent_list:
+        inputs.append(button)
+    for button in main_button_list:
         inputs.append(button)
 
     display_list = [
@@ -50,7 +51,7 @@ def main():
     ]
 
 
-    manager = manager_module.Manager(screen, 7000, 4000, heat_list, cool_list, vent_list, display_list, toggle_on)    #first 2 arguments are starting temp & pressure
+    manager = manager_module.Manager(screen, 7000, 4000, heat_list, cool_list, vent_list, display_list, main_button_list)    #first 2 arguments are starting temp & pressure
 
     while True:
         clock.tick(60)
@@ -75,6 +76,8 @@ def main():
                     manager.set_temp(int(input("Set Temp: ")))
                 if event.key == pygame.K_p:
                     manager.set_pressure(int(input("Set Pressure: ")))
+                if event.key == pygame.K_o:
+                    manager.set_power(int(input("Set Power: ")))
 
         manager.calculate_values()
         manager.update_displays()

@@ -32,7 +32,7 @@ class Text_Display():
             display_value = display_value / 100
             display_value = int(display_value)
             display_value = display_value / 10
-            suffix = " MW"
+            suffix = " GW"
         elif self.special == "time_left":
             display_value = int(self.value)
             suffix = " s"
