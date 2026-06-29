@@ -13,8 +13,8 @@ def main():
     clock = pygame.time.Clock()
 
 
-    heat_steps_list = [635, 620, 605, 590, 575]
-    cool_steps_list = [650, 635, 620, 605, 590, 575]
+    heat_steps_list = [630, 615, 600, 585, 570]
+    cool_steps_list = [645, 630, 615, 600, 585, 570]
     heat_list = []
     cool_list = []
     vent_list = []
@@ -22,12 +22,13 @@ def main():
     inputs = []
 
     for heat_lever in range(6):
-        heat_list.append(lever_module.Lever(screen, 30 + 50*heat_lever, "heat_lever.png", heat_steps_list, 0))
+        heat_list.append(lever_module.Lever(screen, 20 + 58*heat_lever, "heat_lever.png", heat_steps_list, 0))
     for cool_lever in range(3):
-        cool_list.append(lever_module.Lever(screen, 900 + 50*cool_lever, "cool_lever.png", cool_steps_list, 0))
+        cool_list.append(lever_module.Lever(screen, 1105 + 58*cool_lever, "cool_lever.png", cool_steps_list, 0))
     for vent in range(3):
-        vent_list.append(button_module.Button(screen, 515 + 90*vent, 605, "unpressed_button.png", "pressed_button.png", True))
-    toggle_on = (button_module.Button(screen, 1150, 585, "unpressed_button.png", "pressed_button.png"))
+        vent_list.append(button_module.Button(screen, 950.5 + 53*vent, 574, "unpressed_button.png", "pressed_button.png", True))
+
+    toggle_on = (button_module.Button(screen, 625, 619, "unpressed_button.png", "pressed_button.png"))
     inputs.append(toggle_on)
 
 
