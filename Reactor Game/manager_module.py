@@ -26,12 +26,20 @@ class Manager():
         self.background = backgrounds_module.Backgrounds(self.screen)
         self.l_size = 0
         self.c_size = 0
+        self.active_filter = "none"
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
 
     def calculate_values(self):
+        self.active_filter = "none"
+
+        if self.temp > 17000:
+            # HIGH TEMPURATURE
+            self.active_filter = ("yellow")
+
         if self.temp < 3000:
+            # REACTION STALL
             self.background.reactor_background_B_()
             if self.l_size > 0:
                 self.background.lasers_setup_(self.l_size)
@@ -45,7 +53,8 @@ class Manager():
             self.background.reactor_background_F_()
 
         elif self.main_buttons[1].is_pressed():
-            if self.temp > 27000 or self.power < 3000000:
+            # INTENTIONAL SHUTDOWN
+            if self.temp > 27000 or self.power < 3000:
                 self.main_buttons[1].set_pressed(False)
             else:
                 self.background.reactor_background_B_()
@@ -61,6 +70,7 @@ class Manager():
                 self.background.reactor_background_F_()
 
         elif self.main_buttons[0].is_pressed():
+            # REGULAR OPERATIONS
             self.advance_timer()
             self.background.reactor_background_B_()
             if self.l_size < 20:
@@ -73,15 +83,24 @@ class Manager():
                 self.c_size += 1.5
             self.background.core_()
             self.background.reactor_background_F_()
-            self.background.yellow_filter_()
             self.calculate_temp()
             self.calculate_pressure()
             self.calculate_power()
 
         else:
+            # PRE-START INACTIVE
             self.background.reactor_background_B_()
             self.background.laser_bases_()
             self.background.reactor_background_F_()
+
+    def apply_filters(self):
+        if self.active_filter == "yellow":
+            self.background.yellow_filter_()
+        if self.active_filter == "red":
+            pass
+        if self.active_filter == "none":
+            pass
+        
 
     def calculate_temp(self):
         self.change_in_temp = 0
@@ -110,7 +129,7 @@ class Manager():
 
     def calculate_power(self):
         self.change_in_power = 0
-        self.change_in_power += self.temp
+        self.change_in_power += self.temp / 1000
 
         self.power += self.change_in_power / self.reduction_factor
 

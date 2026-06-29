@@ -88,7 +88,7 @@ def main():
                 _input.set_height(pygame.mouse.get_pos()[1])
             _input.draw()
 
-       
+        manager.apply_filters()
 
         pygame.display.update()
 

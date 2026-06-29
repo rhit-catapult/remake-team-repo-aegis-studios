@@ -69,9 +69,6 @@ class Backgrounds():
 
     def reactor_background_F_(self):
         self.screen.blit(self.reactor_backgroundF, (0,0))
-    
-    def yellow_filter_(self):
-        self.screen.blit(self.yellow_filter, (0,0))
 
     def core_setup_(self, c_size):
         self.base_core = pygame.image.load("core.png")
@@ -80,6 +77,9 @@ class Backgrounds():
 
     def core_(self):
         self.screen.blit(self.core, self.core_rect)
+
+    def yellow_filter_(self):
+        self.screen.blit(self.yellow_filter, (0,0))
 
 
 

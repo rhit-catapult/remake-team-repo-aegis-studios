@@ -28,8 +28,8 @@ class Text_Display():
             display_value = round(self.value, 3)
             suffix = " PSI"
         elif self.special == "power_round":
-            display_value = int(self.value)
-            display_value = display_value / 100
+            display_value = self.value
+            display_value = display_value * 10
             display_value = int(display_value)
             display_value = display_value / 10
             suffix = " GW"
