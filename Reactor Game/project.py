@@ -7,6 +7,7 @@ import manager_module
 
 def main():
     pygame.init()
+    pygame.mixer.init()
     pygame.display.set_caption("Starfall: Hydra - Reactor Operations")
     screen = pygame.display.set_mode((1280, 720))
     clock = pygame.time.Clock()

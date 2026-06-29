@@ -8,6 +8,7 @@
 # Everything else adjusts how much a factor affects the variables change
 
 import backgrounds_module
+import pygame
 
 class Manager():
 
@@ -30,6 +31,8 @@ class Manager():
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
+        pygame.mixer.music.load("non-operational1.mp3")
+        pygame.mixer.music.play(-1)
 
     def calculate_values(self):
         self.active_filter = "none"
@@ -92,6 +95,7 @@ class Manager():
             self.background.reactor_background_B_()
             self.background.laser_bases_()
             self.background.reactor_background_F_()
+
 
     def apply_filters(self):
         if self.active_filter == "yellow":
