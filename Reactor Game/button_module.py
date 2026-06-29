@@ -15,12 +15,11 @@ class Button():
         return self.pressed
 
     def on_click(self):
-        self.pressed = not self.pressed
-
-    def on_release(self):
-        if not self.toggle:
-            self.pressed = False
-
+        if self.toggle:
+            self.pressed = not self.pressed
+        else:
+            self.pressed = True
+            
     def is_clicked(self, click_x, click_y):
         hitbox = pygame.Rect(self.x, self.y, self.unpressed_image.get_width(), self.unpressed_image.get_height())
         return hitbox.collidepoint(click_x, click_y)

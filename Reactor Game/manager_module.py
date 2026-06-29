@@ -7,24 +7,43 @@
 # The reduction factor is used for balancing everything to line up with the 7k-27k goal
 # Everything else adjusts how much a factor affects the variables change
 
+import backgrounds_module
+
 class Manager():
 
-    def __init__(self, start_temp, start_pressure, heat_levers, cool_levers, vent_buttons, display_objects):
+    def __init__(self, screen, start_temp, start_pressure, heat_levers, cool_levers, vent_buttons, display_objects, toggle_on):
+        self.screen = screen
         self.temp = start_temp
         self.pressure = start_pressure
         self.heat_levers = heat_levers
         self.cool_levers = cool_levers
         self.vent_buttons = vent_buttons
         self.display_objects = display_objects
+        self.toggle_on = toggle_on 
         self.power = 0
         self.reduction_factor = 33                  # higher number = slower changes
-        self.timer = 500 * 60                       # 500 seconds timer  
-
-    def calculate_values(self):
+        self.timer = 500 * 60                       # 500 seconds timer
+        self.background = backgrounds_module.Backgrounds(self.screen)
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
-        self.advance_timer()
+
+    def calculate_values(self):
+        if self.toggle_on.is_pressed():
+            self.background.reactor_background_()
+            self.background.lasers_()
+            self.background.laser_bases_()
+            self.background.bottom_panel_()
+            self.background.top_panel_()
+            self.background.core_()
+            self.calculate_temp()
+            self.calculate_pressure()
+            self.calculate_power()
+        else:
+            self.background.reactor_background_()
+            self.background.laser_bases_()
+            self.background.bottom_panel_()
+            self.background.top_panel_()
 
     def calculate_temp(self):
         self.change_in_temp = 0

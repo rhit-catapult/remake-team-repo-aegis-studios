@@ -27,6 +27,8 @@ def main():
         cool_list.append(lever_module.Lever(screen, 900 + 50*cool_lever, "cool_lever.png", cool_steps_list, 0))
     for vent in range(3):
         vent_list.append(button_module.Button(screen, 515 + 90*vent, 605, "unpressed_button.png", "pressed_button.png", True))
+    toggle_on = (button_module.Button(screen, 1150, 585, "unpressed_button.png", "pressed_button.png"))
+    inputs.append(toggle_on)
 
 
     
@@ -48,10 +50,7 @@ def main():
     ]
 
 
-    background = backgrounds_module.Backgrounds(screen)
-
-
-    manager = manager_module.Manager(7000, 4000, heat_list, cool_list, vent_list, display_list)    #first 2 arguments are starting temp & pressure
+    manager = manager_module.Manager(screen, 7000, 4000, heat_list, cool_list, vent_list, display_list, toggle_on)    #first 2 arguments are starting temp & pressure
 
     while True:
         clock.tick(60)
@@ -65,10 +64,6 @@ def main():
                 for _input in inputs:
                     if _input.is_clicked(mouse_pos_tuple[0], mouse_pos_tuple[1]):
                         _input.on_click()
-            
-            if event.type == pygame.MOUSEBUTTONUP:
-                for _input in inputs:
-                    _input.on_release()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
@@ -76,21 +71,16 @@ def main():
                 if event.key == pygame.K_p:
                     manager.set_pressure(int(input("Set Pressure: ")))
 
+        manager.calculate_values()
+        manager.update_displays()
 
-        background.reactor_background_()
-        background.lasers_()
-        background.laser_bases_()
-        background.bottom_panel_()
-        background.top_panel_()
-        background.core_()
 
         for _input in inputs:
             if isinstance(_input, lever_module.Lever) and _input.is_held():
                 _input.set_height(pygame.mouse.get_pos()[1])
             _input.draw()
 
-        manager.calculate_values()
-        manager.update_displays()
+       
 
         pygame.display.update()
 
