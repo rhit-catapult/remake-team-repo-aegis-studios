@@ -31,6 +31,7 @@ class Manager():
         self.c_size = 0
         self.active_filter = "none"
         self.warning = ""
+        self.meltdownOn = False
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
@@ -47,18 +48,24 @@ class Manager():
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
             self.warning = ""
+            self.meltdownOn = False
 
         if 17000 <= self.temp < 27000:
             # HIGH TEMPERATURE
             self.active_filter = ("yellow")
             self.music.set_music("hightemperature")
             self.warning = "WARNING: HIGH TEMP"
+            self.meltdownOn = False
 
         if self.temp >= 27000:
             # MELTDOWN
             self.active_filter = ("orange")
             self.music.set_music("meltdown")
             self.warning = "WARNING: MELTDOWN IMMINENT"
+            self.temp += 1
+            if self.meltdownOn == False:
+                self.meltdownOn = True
+                self.temp += 3000
 
         if self.temp < 3000:
             # REACTION STALL
