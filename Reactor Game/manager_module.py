@@ -9,6 +9,7 @@
 
 import backgrounds_module
 import music_module
+import time
 
 class Manager():
 
@@ -36,10 +37,20 @@ class Manager():
 
     def calculate_values(self):
         self.active_filter = "none"
+        
+        # STARTUP
+        if self.timer == 29999:
+            self.music.set_music("startup")
+        self.music.set_music("none")
+
+        if 4000 < self.temp < 17000:
+            # OPERATIONAL MUSIC
+            self.music.set_music("operational")
 
         if self.temp > 17000:
-            # HIGH TEMPURATURE
+            # HIGH TEMPERATURE
             self.active_filter = ("yellow")
+            self.music.set_music("hightemperature")
 
         if self.temp < 3000:
             # REACTION STALL

@@ -6,7 +6,7 @@ class Backgrounds():
 
     def __init__(self, screen):
         self.screen = screen
-        self.laser_base = pygame.image.load("laser_base.png")    
+        self.laser_base = pygame.image.load("image/laser_base.png")    
         self.laser_base_60 = pygame.transform.rotate(self.laser_base, 60)
         self.laser_base_120 = pygame.transform.rotate(self.laser_base, 120)
         self.laser_base_180 = pygame.transform.rotate(self.laser_base, 180)
@@ -19,11 +19,11 @@ class Backgrounds():
         self.rect_300 = self.laser_base_240.get_rect(center=(760, 567.84))
         self.rect_240 = self.laser_base_300.get_rect(center=(520, 567.84))
 
-        self.reactor_backgroundB = pygame.image.load("background1-1.png")
+        self.reactor_backgroundB = pygame.image.load("image/background1-1.png")
         
-        self.reactor_backgroundF = pygame.image.load("background1-2.png")
+        self.reactor_backgroundF = pygame.image.load("image/background1-2.png")
 
-        self.yellow_filter = pygame.image.load("yellow_filter.png").convert_alpha()
+        self.yellow_filter = pygame.image.load("image/yellow_filter.png").convert_alpha()
         
     def laser_bases_(self):
         self.screen.blit(self.laser_base, self.rect)
@@ -34,7 +34,7 @@ class Backgrounds():
         self.screen.blit(self.laser_base_300, self.rect_300)
 
     def lasers_setup_(self, l_size):
-        self.base_laser = pygame.image.load("laser.png")
+        self.base_laser = pygame.image.load("image/laser.png")
         self.laser = pygame.transform.scale(self.base_laser, (230, l_size))
         self.laser_60 = pygame.transform.rotate(self.laser, 60)
         self.laser_120 = pygame.transform.rotate(self.laser, 120)
@@ -71,7 +71,7 @@ class Backgrounds():
         self.screen.blit(self.reactor_backgroundF, (0,0))
 
     def core_setup_(self, c_size):
-        self.base_core = pygame.image.load("core.png")
+        self.base_core = pygame.image.load("image/core.png")
         self.core = pygame.transform.scale(self.base_core, (c_size, c_size))
         self.core_rect = self.core.get_rect(center=(640, 360))
 
