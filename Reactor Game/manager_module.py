@@ -57,7 +57,7 @@ class Manager():
             self.music.set_music("hightemperature")
             self.warning = "WARNING: HIGH TEMP"
 
-        if self.temp >= 27000:
+        if 50000 > self.temp >= 27000:
             # MELTDOWN
             if self.meltdownOn == False:
                 self.meltdown_timer = 3600
@@ -68,6 +68,10 @@ class Manager():
 
             # DETONATION
             if self.meltdown_timer == 0:
+                self.temp = 99999
+                self.change_in_pressure += 50000
+                self.meltdownOn = False
+                self.warning = ""
                 self.music.set_music("detonation")
 
             # SUCESSFUL EMERGENCY SHUTDOWN
