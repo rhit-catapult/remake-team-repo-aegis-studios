@@ -47,4 +47,10 @@ class Music():
                 pygame.mixer.music.load("sound/detonation1.mp3")
                 self.active_music = "detonation"
                 pygame.mixer.music.play(-1)
+            if new_music == "shutdown":
+                pygame.mixer.music.fadeout(1000)
+                pygame.mixer.music.load("sound/shutdown1.mp3")
+                self.active_music = "shutdown"
+                pygame.mixer.music.play(-1)
+                
                 

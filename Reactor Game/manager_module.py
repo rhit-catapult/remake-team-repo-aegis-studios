@@ -9,7 +9,6 @@
 
 import backgrounds_module
 import music_module
-import time
 
 class Manager():
 
@@ -32,25 +31,38 @@ class Manager():
         self.active_filter = "none"
         self.warning = ""
         self.meltdownOn = False
-        self.meltdown_timer = 0
-        self.freeze = False
+        self.meltdown_timer = -1
+        self.detonationOn = False
+        self.detonation_timer = -1
+        self.game_over = False
+        self.shutdown_o_clock = 300
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
         self.music.set_music("non-operational")
 
     def calculate_values(self):
+        self.calculate_temp()
+        self.calculate_pressure()
+        self.calculate_power()
+
+    def check_events(self):
         self.active_filter = "none"
+
+        if self.game_over:
+            self.shutdown_o_clock -= 1
+            if self.shutdown_o_clock < 0:
+                self.active_filter = "game_over"
+                return
         
         if self.timer == 29999:
             # STARTUP
             self.music.set_music("startup")
 
-        if 3000 <= self.temp < 17000 and self.timer < 27000:
+        if 3000 <= self.temp < 16999 and self.timer < 27000:
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
             self.warning = ""
-            self.meltdownOn = False
 
         if 17000 <= self.temp < 26999:
             # HIGH TEMPERATURE
@@ -59,107 +71,164 @@ class Manager():
             self.warning = "WARNING: HIGH TEMP"
 
         if self.temp >= 27000:
-            # MELTDOWN
-            if self.meltdownOn == False:
-                self.meltdown_timer = 3600
-                self.meltdownOn = True
             self.active_filter = ("orange")
-            self.music.set_music("meltdown")
             self.warning = "WARNING: MELTDOWN IN PROGRESS"
 
-            # DETONATION
-            if self.meltdown_timer == 0 or self.temp > 50000:
-                self.active_filter = ("red")
-                self.temp = 99999
-                self.warning = "CONTAINMENT FAILING, EXPLOSION IMMINENT"
-                if self.freeze == False:
-                    self.freeze = True
-                    self.meltdown_timer = 600
-                self.background.reactor_background_B_()
-                self.background.lasers_()
-                print("work")
-                self.background.laser_bases_()
-                if self.c_size < 1000 and self.meltdown_timer == 0:
-                    self.background.core_setup_(self.c_size)
-                    self.c_size += 5
-                self.background.core_()
-                self.background.reactor_background_F_()   
-                self.advance_timer()
-                self.music.set_music("detonation")
-                print(self.freeze)
-                print(self.meltdownOn)
-                print(self.meltdown_timer)
+        
+        
 
+        if self.main_buttons[0].is_pressed():  
+
+            if self.main_buttons[1].is_pressed():
+                if (self.power < 3000 and self.temp > 3000) or self.meltdownOn:
+                    self.main_buttons[1].set_pressed(False)
+                else:
+                    self.music.set_music("shutdown")
+                    self.e_shutoff()         
+
+            elif 2000 < self.temp < 3000:
+                self.e_stall()
             
+            elif self.temp > 27000:
+                if not self.meltdownOn and not self.detonationOn:
+                    self.e_start_meltdown()
 
+                if self.meltdown_timer == 0:
+                    self.e_start_detonation()
 
-            # SUCESSFUL EMERGENCY SHUTDOWN
-            if 27000 < self.temp < 27005 and self.meltdown_timer < 3500:
-                self.temp = 0
-                self.meltdownOn = False
-                self.warning = ""
-                self.music.set_music("emergencyshutdown")
-                self.main_buttons[1].set_pressed(True)
-            
+                if self.meltdownOn:
+                    self.e_meltdown()
 
-        if 2000 < self.temp < 3000:
-            # REACTION STALL
-            self.background.reactor_background_B_()
-            if self.l_size > 0:
-                self.background.lasers_setup_(self.l_size)
-                self.l_size -= 0.3
-            self.background.lasers_()
-            self.background.laser_bases_()
-            if self.c_size > 0:
-                self.background.core_setup_(self.c_size)
-                self.c_size -= 1.5
-            self.background.core_()
-            self.background.reactor_background_F_()
-            self.music.set_music("reactionstall")
+                if self.detonationOn:
+                    self.meltdownOn = False
+                    self.e_detonation()
+         
+                if 27000 < self.temp < 27005 and self.meltdown_timer < 3500:
+                    self.music.set_music("emergencyshutdown")
+                    self.e_shutoff() 
 
-        if self.main_buttons[1].is_pressed():
-            print("works")
-            # INTENTIONAL SHUTDOWN
-            if (self.power < 3000 and self.temp > 3000) or self.meltdownOn:
-                self.main_buttons[1].set_pressed(False)
-                print("broke")
             else:
-                self.temp = 0
-                self.background.reactor_background_B_()
-                if self.l_size > 0:
-                    self.background.lasers_setup_(self.l_size)
-                    self.l_size -= 0.1
-                self.background.lasers_()
-                self.background.laser_bases_()
-                if self.c_size > 0:
-                    self.background.core_setup_(self.c_size)
-                    self.c_size -= 0.5
-                self.background.core_()
-                self.background.reactor_background_F_()
-
-        elif self.main_buttons[0].is_pressed() and self.freeze == False:
-            # REGULAR OPERATIONS
-            self.advance_timer()
-            self.background.reactor_background_B_()
-            if self.l_size < 20:
-                self.background.lasers_setup_(self.l_size)
-                self.l_size += 0.3
-            self.background.lasers_()
-            self.background.laser_bases_()
-            if self.c_size < 96:
-                self.background.core_setup_(self.c_size)
-                self.c_size += 1.5
-            self.background.core_()
-            self.background.reactor_background_F_()
-            self.calculate_temp()
-            self.calculate_pressure()
-            self.calculate_power()
+                self.e_regular_operations()
 
         else:
             # PRE-START INACTIVE
-            self.background.reactor_background_B_()
-            self.background.laser_bases_()
-            self.background.reactor_background_F_()
+            self.e_inactive()
+
+
+
+    def e_inactive(self):
+        print("e_inactive")
+        self.background.reactor_background_B_()
+        self.background.laser_bases_()
+        self.background.reactor_background_F_()
+
+    def e_regular_operations(self):
+        print("e_regular_operations")
+        self.advance_timer()
+        self.background.reactor_background_B_()
+        if self.l_size < 20:
+            self.background.lasers_setup_(self.l_size)
+            self.l_size += 0.3
+        self.background.lasers_()
+        self.background.laser_bases_()
+        if self.c_size < 96:
+            self.background.core_setup_(self.c_size)
+            self.c_size += 1.5
+        self.background.core_()
+        self.background.reactor_background_F_()
+        self.calculate_values()
+    
+    def e_shutoff(self):
+        # INTENTIONAL SHUTDOWN
+        print("e_shutoff")
+        self.temp = 0
+        self.background.reactor_background_B_()
+        if self.l_size > 0:
+            self.background.lasers_setup_(self.l_size)
+            self.l_size -= 0.1
+        self.background.lasers_()
+        self.background.laser_bases_()
+        if self.c_size > 0:
+            self.background.core_setup_(self.c_size)
+            self.c_size -= 0.5
+        self.background.core_()
+        self.background.reactor_background_F_()
+        self.game_over = True
+
+    def e_stall(self):
+        print("e_stall")
+        self.background.reactor_background_B_()
+        if self.l_size > 0:
+            self.background.lasers_setup_(self.l_size)
+            self.l_size -= 0.3
+        self.background.lasers_()
+        self.background.laser_bases_()
+        if self.c_size > 0:
+            self.background.core_setup_(self.c_size)
+            self.c_size -= 1.5
+        self.background.core_()
+        self.background.reactor_background_F_()
+        self.music.set_music("reactionstall")
+        self.game_over = True
+
+    def e_start_meltdown(self):
+        print("e_start_meltdown")
+        self.meltdownOn = True
+        self.meltdown_timer = 3600
+
+    def e_meltdown(self):
+        print("e_meltdown")
+        self.advance_timer()
+        self.background.reactor_background_B_()
+        if self.l_size < 20:
+            self.background.lasers_setup_(self.l_size)
+            self.l_size += 0.3
+        self.background.lasers_()
+        self.background.laser_bases_()
+        if self.c_size < 192:
+            self.background.core_setup_(self.c_size)
+            self.c_size += 1.5
+        self.background.core_()
+        self.background.reactor_background_F_()
+        self.calculate_values()
+        self.music.set_music("meltdown")
+
+    def e_start_detonation(self):
+        print("e_start_detonation")
+        self.detonationOn = True
+        self.detonation_timer = 600
+
+    def e_detonation(self):
+        print("e_detonation")
+        self.active_filter = ("red")
+        self.temp = 99999
+        self.pressure += 10000
+        self.warning = "CONTAINMENT FAILING, EXPLOSION IMMINENT"
+        self.background.reactor_background_B_()
+        if self.l_size < 30:
+            self.background.lasers_setup_(self.l_size)
+            self.l_size += 0.1
+        self.background.lasers_()
+        self.background.laser_bases_()
+        if self.detonation_timer < 60:
+            self.background.core_setup_(self.c_size)
+            self.c_size += 15
+        elif self.c_size > 43:
+            self.background.core_setup_(self.c_size)
+            self.c_size -= 0.4
+        self.background.core_()
+        self.background.reactor_background_F_()
+        self.advance_timer()
+        self.calculate_values() 
+        self.music.set_music("detonation")
+        if self.detonation_timer == 120:
+            self.game_over = True
+
+
+        
+
+
+
 
     def apply_filters(self):
         if self.active_filter == "yellow":
@@ -168,6 +237,8 @@ class Manager():
             self.background.orange_filter_()
         if self.active_filter == "red":
             self.background.red_filter_()
+        if self.active_filter == "game_over":
+            self.background.game_over_()
         
 
     def calculate_temp(self):
@@ -205,14 +276,11 @@ class Manager():
         self.power += self.change_in_power / self.reduction_factor
 
     def advance_timer(self):
-        if not self.freeze:
-            self.timer -= 1
-            if self.meltdownOn:
-                self.meltdown_timer -= 1
-        else:
-            if self.meltdown_timer > 0:
-                print("works__")
-                self.meltdown_timer -= 1
+        self.timer -= 1
+        if self.meltdownOn:
+            self.meltdown_timer -= 1
+        if self.detonationOn:
+            self.detonation_timer -= 1
 
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
@@ -224,6 +292,7 @@ class Manager():
         self.display_objects[6].set_value(self.timer / 60)
         self.display_objects[7].set_value(self.warning)
         self.display_objects[8].set_value("TIME UNTIL MELTDOWN: " + str(int(self.meltdown_timer / 60)) + " s", self.meltdownOn)
+        self.display_objects[9].set_value("TIME UNTIL EXPLOSION: " + str(int(self.detonation_timer / 60)) + " s", self.detonationOn)
         
 
         for display in self.display_objects:

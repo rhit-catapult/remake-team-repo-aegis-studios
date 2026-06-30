@@ -50,6 +50,7 @@ def main():
         text_display_module.Text_Display(screen, 835, 40, "Pressure Change Rate: ", "pressure_round"),
         text_display_module.Text_Display(screen, 485, 20, "Remaining Shift Time: ", "time_left"),
         text_display_module.Text_Display(screen, 35, 20, ""), 
+        text_display_module.Text_Display(screen, 35, 40, ""), 
         text_display_module.Text_Display(screen, 35, 40, "") 
     ]
 
@@ -82,7 +83,7 @@ def main():
                 if event.key == pygame.K_o:
                     manager.set_power(int(input("Set Power: ")))
 
-        manager.calculate_values()
+        manager.check_events()
         manager.update_displays()
 
 
@@ -92,6 +93,7 @@ def main():
             _input.draw()
 
         manager.apply_filters()
+        print("---")
 
         pygame.display.update()
 
