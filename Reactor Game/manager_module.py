@@ -30,6 +30,7 @@ class Manager():
         self.l_size = 0
         self.c_size = 0
         self.active_filter = "none"
+        self.warning = ""
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
@@ -38,24 +39,26 @@ class Manager():
     def calculate_values(self):
         self.active_filter = "none"
         
-        # STARTUP
         if self.timer == 29999:
+            # STARTUP
             self.music.set_music("startup")
-        self.music.set_music("none")
 
-        if 3000 <= self.temp < 17000:
+        if 3000 <= self.temp < 17000 and self.timer < 27000:
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
+            self.warning = ""
 
         if 17000 <= self.temp < 27000:
             # HIGH TEMPERATURE
             self.active_filter = ("yellow")
             self.music.set_music("hightemperature")
+            self.warning = "WARNING: HIGH TEMP"
 
         if self.temp >= 27000:
             # MELTDOWN
             self.active_filter = ("orange")
             self.music.set_music("meltdown")
+            self.warning = "WARNING: MELTDOWN IMMINENT"
 
         if self.temp < 3000:
             # REACTION STALL
@@ -70,6 +73,7 @@ class Manager():
                 self.c_size -= 1.5
             self.background.core_()
             self.background.reactor_background_F_()
+            self.music.set_music("reactionstall")
 
         elif self.main_buttons[1].is_pressed():
             # INTENTIONAL SHUTDOWN
@@ -120,8 +124,6 @@ class Manager():
             self.background.orange_filter_()
         if self.active_filter == "red":
             self.background.red_filter_()
-        if self.active_filter == "none":
-            pass
         
 
     def calculate_temp(self):
@@ -166,6 +168,7 @@ class Manager():
         self.display_objects[4].set_value(self.pressure)
         self.display_objects[5].set_value(self.change_in_pressure * 60 / self.reduction_factor)
         self.display_objects[6].set_value(self.timer / 60)
+        self.display_objects[7].set_value(self.warning)
         
 
         for display in self.display_objects:

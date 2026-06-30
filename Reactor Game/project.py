@@ -48,7 +48,8 @@ def main():
         text_display_module.Text_Display(screen, 485, 100, "Temp Change Rate: ", "temp_round"),
         text_display_module.Text_Display(screen, 835, 20, "Pressure: ", "pressure"),
         text_display_module.Text_Display(screen, 835, 40, "Pressure Change Rate: ", "pressure_round"),
-        text_display_module.Text_Display(screen, 485, 20, "Remaining Shift Time: ", "time_left")    
+        text_display_module.Text_Display(screen, 485, 20, "Remaining Shift Time: ", "time_left"),
+        text_display_module.Text_Display(screen, 35, 20, "") 
     ]
 
 

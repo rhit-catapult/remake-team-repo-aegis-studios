@@ -36,6 +36,8 @@ class Text_Display():
         elif self.special == "time_left":
             display_value = int(self.value)
             suffix = " s"
+        elif isinstance(self.value, str):
+            display_value = self.value
         else:
             display_value = int(self.value)
 
