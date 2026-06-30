@@ -24,6 +24,8 @@ class Backgrounds():
         self.reactor_backgroundF = pygame.image.load("image/background1-2.png")
 
         self.yellow_filter = pygame.image.load("image/yellow_filter.png").convert_alpha()
+        self.orange_filter = pygame.image.load("image/orange_filter.png").convert_alpha()
+        self.red_filter = pygame.image.load("image/red_filter.png").convert_alpha()
         
     def laser_bases_(self):
         self.screen.blit(self.laser_base, self.rect)
@@ -80,6 +82,12 @@ class Backgrounds():
 
     def yellow_filter_(self):
         self.screen.blit(self.yellow_filter, (0,0))
+
+    def orange_filter_(self):
+        self.screen.blit(self.orange_filter, (0,0))
+
+    def red_filter_(self):
+        self.screen.blit(self.red_filter, (0,0))
 
 
 

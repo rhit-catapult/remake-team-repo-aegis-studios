@@ -43,14 +43,19 @@ class Manager():
             self.music.set_music("startup")
         self.music.set_music("none")
 
-        if 4000 < self.temp < 17000:
+        if 3000 <= self.temp < 17000:
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
 
-        if self.temp > 17000:
+        if 17000 <= self.temp < 27000:
             # HIGH TEMPERATURE
             self.active_filter = ("yellow")
             self.music.set_music("hightemperature")
+
+        if self.temp >= 27000:
+            # MELTDOWN
+            self.active_filter = ("orange")
+            self.music.set_music("meltdown")
 
         if self.temp < 3000:
             # REACTION STALL
@@ -111,8 +116,10 @@ class Manager():
     def apply_filters(self):
         if self.active_filter == "yellow":
             self.background.yellow_filter_()
+        if self.active_filter == "orange":
+            self.background.orange_filter_()
         if self.active_filter == "red":
-            pass
+            self.background.red_filter_()
         if self.active_filter == "none":
             pass
         
