@@ -6,7 +6,7 @@ class Backgrounds():
 
     def __init__(self, screen):
         self.screen = screen
-        self.laser_base = pygame.image.load("image/laser_base.png")    
+        self.laser_base = pygame.image.load("image/laser_base.png").convert_alpha()
         self.laser_base_60 = pygame.transform.rotate(self.laser_base, 60)
         self.laser_base_120 = pygame.transform.rotate(self.laser_base, 120)
         self.laser_base_180 = pygame.transform.rotate(self.laser_base, 180)
@@ -36,7 +36,7 @@ class Backgrounds():
         self.screen.blit(self.laser_base_300, self.rect_300)
 
     def lasers_setup_(self, l_size):
-        self.base_laser = pygame.image.load("image/laser.png")
+        self.base_laser = pygame.image.load("image/laser.png").convert_alpha()
         self.laser = pygame.transform.scale(self.base_laser, (230, l_size))
         self.laser_60 = pygame.transform.rotate(self.laser, 60)
         self.laser_120 = pygame.transform.rotate(self.laser, 120)
@@ -73,7 +73,7 @@ class Backgrounds():
         self.screen.blit(self.reactor_backgroundF, (0,0))
 
     def core_setup_(self, c_size):
-        self.base_core = pygame.image.load("image/core.png")
+        self.base_core = pygame.image.load("image/core.png").convert_alpha()
         self.core = pygame.transform.scale(self.base_core, (c_size, c_size))
         self.core_rect = self.core.get_rect(center=(640, 360))
 
