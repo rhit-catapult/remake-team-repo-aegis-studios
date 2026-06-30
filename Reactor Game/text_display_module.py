@@ -10,8 +10,10 @@ class Text_Display():
         self.value = 0
         self.special = special
 
-    def set_value(self, value):
+    def set_value(self, value, show = True):
         self.value = value
+        if not show:
+            self.value = ""
 
     def draw(self):
         suffix = ""

@@ -32,6 +32,7 @@ class Manager():
         self.active_filter = "none"
         self.warning = ""
         self.meltdownOn = False
+        self.meltdown_timer = 0
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
@@ -50,24 +51,36 @@ class Manager():
             self.warning = ""
             self.meltdownOn = False
 
-        if 17000 <= self.temp < 27000:
+        if 17000 <= self.temp < 26999:
             # HIGH TEMPERATURE
             self.active_filter = ("yellow")
             self.music.set_music("hightemperature")
             self.warning = "WARNING: HIGH TEMP"
-            self.meltdownOn = False
 
         if self.temp >= 27000:
             # MELTDOWN
+            if self.meltdownOn == False:
+                self.meltdown_timer = 3600
+                self.meltdownOn = True
             self.active_filter = ("orange")
             self.music.set_music("meltdown")
             self.warning = "WARNING: MELTDOWN IMMINENT"
-            self.temp += 1
-            if self.meltdownOn == False:
-                self.meltdownOn = True
-                self.temp += 3000
 
-        if self.temp < 3000:
+            # DETONATION
+            if self.meltdown_timer == 0:
+                self.music.set_music("detonation")
+
+            # SUCESSFUL EMERGENCY SHUTDOWN
+            if 27000 < self.temp < 27005 and self.meltdown_timer < 3500:
+                self.temp = 0
+                self.meltdownOn = False
+                self.warning = ""
+                self.music.set_music("emergencyshutdown")
+                self.main_buttons[1].set_pressed(True)
+                print("work")
+            
+
+        if 2000 < self.temp < 3000:
             # REACTION STALL
             self.background.reactor_background_B_()
             if self.l_size > 0:
@@ -82,10 +95,12 @@ class Manager():
             self.background.reactor_background_F_()
             self.music.set_music("reactionstall")
 
-        elif self.main_buttons[1].is_pressed():
+        if self.main_buttons[1].is_pressed():
+            print("works")
             # INTENTIONAL SHUTDOWN
-            if self.temp > 27000 or self.power < 3000:
+            if (self.power < 3000 and self.temp > 3000) or self.meltdownOn:
                 self.main_buttons[1].set_pressed(False)
+                print("broke")
             else:
                 self.background.reactor_background_B_()
                 if self.l_size > 0:
@@ -98,6 +113,8 @@ class Manager():
                     self.c_size -= 0.5
                 self.background.core_()
                 self.background.reactor_background_F_()
+
+        
 
         elif self.main_buttons[0].is_pressed():
             # REGULAR OPERATIONS
@@ -144,6 +161,9 @@ class Manager():
 
         self.change_in_temp += self.pressure / 1000                  # adds more tempurature based on pressure
 
+        if self.meltdownOn:
+            self.change_in_temp += (self.meltdown_timer + 2000) / 200   # creates a slope to stop early meltdown escapes and make later ones possible
+
         self.temp += self.change_in_temp / self.reduction_factor
 
     def calculate_pressure(self):
@@ -166,6 +186,8 @@ class Manager():
 
     def advance_timer(self):
         self.timer -= 1
+        if self.meltdownOn:
+            self.meltdown_timer -= 1
 
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
@@ -176,6 +198,7 @@ class Manager():
         self.display_objects[5].set_value(self.change_in_pressure * 60 / self.reduction_factor)
         self.display_objects[6].set_value(self.timer / 60)
         self.display_objects[7].set_value(self.warning)
+        self.display_objects[8].set_value("TIME UNTIL MELTDOWN: " + str(int(self.meltdown_timer / 60)) + " s", self.meltdownOn)
         
 
         for display in self.display_objects:

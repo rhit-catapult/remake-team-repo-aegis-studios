@@ -24,7 +24,6 @@ class Music():
                 self.active_music = "hightemperature"
                 pygame.mixer.music.play(-1)
             if new_music == "meltdown":
-                pygame.mixer.music.fadeout(1000)
                 pygame.mixer.music.load("sound/meltdown1.mp3")
                 self.active_music = "meltdown"
                 pygame.mixer.music.play(-1)
@@ -38,3 +37,14 @@ class Music():
                 pygame.mixer.music.load("sound/reactionstall1.mp3")
                 self.active_music = "reactionstall"
                 pygame.mixer.music.play(-1)
+            if new_music == "emergencyshutdown":
+                pygame.mixer.music.fadeout(1000)
+                pygame.mixer.music.load("sound/emergencyshutdown1.mp3")
+                self.active_music = "emergencyshutdown"
+                pygame.mixer.music.play(-1)
+            if new_music == "detonation":
+                pygame.mixer.music.fadeout(1000)
+                pygame.mixer.music.load("sound/detonation1.mp3")
+                self.active_music = "detonation"
+                pygame.mixer.music.play(-1)
+                
