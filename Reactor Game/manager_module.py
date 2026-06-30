@@ -33,6 +33,7 @@ class Manager():
         self.warning = ""
         self.meltdownOn = False
         self.meltdown_timer = 0
+        self.freeze = False
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
@@ -57,22 +58,40 @@ class Manager():
             self.music.set_music("hightemperature")
             self.warning = "WARNING: HIGH TEMP"
 
-        if 50000 > self.temp >= 27000:
+        if self.temp >= 27000:
             # MELTDOWN
             if self.meltdownOn == False:
                 self.meltdown_timer = 3600
                 self.meltdownOn = True
             self.active_filter = ("orange")
             self.music.set_music("meltdown")
-            self.warning = "WARNING: MELTDOWN IMMINENT"
+            self.warning = "WARNING: MELTDOWN IN PROGRESS"
 
             # DETONATION
-            if self.meltdown_timer == 0:
+            if self.meltdown_timer == 0 or self.temp > 50000:
+                self.active_filter = ("red")
                 self.temp = 99999
-                self.change_in_pressure += 50000
-                self.meltdownOn = False
-                self.warning = ""
+                self.warning = "CONTAINMENT FAILING, EXPLOSION IMMINENT"
+                if self.freeze == False:
+                    self.freeze = True
+                    self.meltdown_timer = 600
+                self.background.reactor_background_B_()
+                self.background.lasers_()
+                print("work")
+                self.background.laser_bases_()
+                if self.c_size < 1000 and self.meltdown_timer == 0:
+                    self.background.core_setup_(self.c_size)
+                    self.c_size += 5
+                self.background.core_()
+                self.background.reactor_background_F_()   
+                self.advance_timer()
                 self.music.set_music("detonation")
+                print(self.freeze)
+                print(self.meltdownOn)
+                print(self.meltdown_timer)
+
+            
+
 
             # SUCESSFUL EMERGENCY SHUTDOWN
             if 27000 < self.temp < 27005 and self.meltdown_timer < 3500:
@@ -81,7 +100,6 @@ class Manager():
                 self.warning = ""
                 self.music.set_music("emergencyshutdown")
                 self.main_buttons[1].set_pressed(True)
-                print("work")
             
 
         if 2000 < self.temp < 3000:
@@ -106,6 +124,7 @@ class Manager():
                 self.main_buttons[1].set_pressed(False)
                 print("broke")
             else:
+                self.temp = 0
                 self.background.reactor_background_B_()
                 if self.l_size > 0:
                     self.background.lasers_setup_(self.l_size)
@@ -118,9 +137,7 @@ class Manager():
                 self.background.core_()
                 self.background.reactor_background_F_()
 
-        
-
-        elif self.main_buttons[0].is_pressed():
+        elif self.main_buttons[0].is_pressed() and self.freeze == False:
             # REGULAR OPERATIONS
             self.advance_timer()
             self.background.reactor_background_B_()
@@ -143,7 +160,6 @@ class Manager():
             self.background.reactor_background_B_()
             self.background.laser_bases_()
             self.background.reactor_background_F_()
-
 
     def apply_filters(self):
         if self.active_filter == "yellow":
@@ -189,9 +205,14 @@ class Manager():
         self.power += self.change_in_power / self.reduction_factor
 
     def advance_timer(self):
-        self.timer -= 1
-        if self.meltdownOn:
-            self.meltdown_timer -= 1
+        if not self.freeze:
+            self.timer -= 1
+            if self.meltdownOn:
+                self.meltdown_timer -= 1
+        else:
+            if self.meltdown_timer > 0:
+                print("works__")
+                self.meltdown_timer -= 1
 
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
