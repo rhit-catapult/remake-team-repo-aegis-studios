@@ -35,11 +35,13 @@ class Manager():
         self.detonationOn = False
         self.detonation_timer = -1
         self.game_over = False
-        self.shutdown_o_clock = 300
+        self.victory = False
+        self.shutdown_timer = 180
         self.calculate_temp()
         self.calculate_pressure()
         self.calculate_power()
         self.music.set_music("non-operational")
+        
 
     def calculate_values(self):
         self.calculate_temp()
@@ -50,14 +52,20 @@ class Manager():
         self.active_filter = "none"
 
         if self.game_over:
-            self.shutdown_o_clock -= 1
-            if self.shutdown_o_clock < 0:
+            if self.shutdown_timer > -255:
+                self.shutdown_timer -= 1
+            if self.shutdown_timer < 0:
                 self.active_filter = "game_over"
                 return
         
         if self.timer == 29999:
             # STARTUP
             self.music.set_music("startup")
+
+        if self.timer <= 0:
+            if not self.detonationOn:
+                if self.power > 3000:
+                    self.victory = True
 
         if 3000 <= self.temp < 16999 and self.timer < 27000:
             # OPERATIONAL MUSIC
@@ -80,11 +88,14 @@ class Manager():
         if self.main_buttons[0].is_pressed():  
 
             if self.main_buttons[1].is_pressed():
-                if (self.power < 3000 and self.temp > 3000) or self.meltdownOn:
+                if (self.power < 3000 and self.temp > 3000) or self.meltdownOn or self.detonationOn:
                     self.main_buttons[1].set_pressed(False)
                 else:
-                    self.music.set_music("shutdown")
-                    self.e_shutoff()         
+                    self.e_shutoff() 
+                    self.music.set_music("shutdown")             
+
+            elif self.temp < 1000:
+                self.e_shutoff()
 
             elif 2000 < self.temp < 3000:
                 self.e_stall()
@@ -104,8 +115,9 @@ class Manager():
                     self.e_detonation()
          
                 if 27000 < self.temp < 27005 and self.meltdown_timer < 3500:
-                    self.music.set_music("emergencyshutdown")
                     self.e_shutoff() 
+                    self.main_buttons[1].set_pressed(True)
+                    self.music.set_music("emergencyshutdown")
 
             else:
                 self.e_regular_operations()
@@ -153,6 +165,8 @@ class Manager():
             self.c_size -= 0.5
         self.background.core_()
         self.background.reactor_background_F_()
+        if self.power > 3000 or self.meltdownOn:
+            self.victory = True
         self.game_over = True
 
     def e_stall(self):
@@ -238,7 +252,7 @@ class Manager():
         if self.active_filter == "red":
             self.background.red_filter_()
         if self.active_filter == "game_over":
-            self.background.game_over_()
+            self.background.game_over_(self.shutdown_timer * -1, self.power, self.timer / 60, self.victory)
         
 
     def calculate_temp(self):
