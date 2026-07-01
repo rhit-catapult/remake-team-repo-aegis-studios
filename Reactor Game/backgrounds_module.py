@@ -29,6 +29,8 @@ class Backgrounds():
 
         self.game_over = pygame.image.load("image/endscreen.png")
         self.game_over_font = pygame.font.SysFont("calibri", 24)
+
+        self.menuscreen = pygame.image.load("image/menuscreen.png")
         
         
         
@@ -110,7 +112,7 @@ class Backgrounds():
 
 
     def menu_(self):
-        self.screen.blit(self.game_over, (0,0))
+        self.screen.blit(self.menuscreen, (0,0))
 
 
 

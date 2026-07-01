@@ -24,7 +24,7 @@ def main():
 
     inputs = []
     for menu_button in range(4):
-        menu_button_list.append(button_module.Button(screen, 100 + 100*menu_button, 100, "image/unpressed_button.png", "image/pressed_button.png", "one_time", "menu"))
+        menu_button_list.append(button_module.Button(screen, 57.5 + 115*menu_button, 613, "image/unpressed_button.png", "image/pressed_button.png", "one_time", "menu"))
     for heat_lever in range(6):
         heat_list.append(lever_module.Lever(screen, 20 + 58*heat_lever, "image/heat_lever.png", heat_steps_list, 0, "heat", "game"))
     for cool_lever in range(3):
