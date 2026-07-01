@@ -58,7 +58,7 @@ class Manager():
                 self.active_filter = "game_over"
                 return
         
-        if self.timer == 12999:
+        if self.timer == 11999:
             # STARTUP
             self.music.set_music("startup")
 
