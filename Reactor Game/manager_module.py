@@ -262,12 +262,14 @@ class Manager():
             self.change_in_temp += heat_lever.get_position() + 1
 
         for cool_lever in self.cool_levers:
-            self.change_in_temp -= cool_lever.get_position() *2
+            self.change_in_temp -= cool_lever.get_position() * 2
 
-        self.change_in_temp += self.pressure / 1000                  # adds more tempurature based on pressure
+        self.change_in_temp += self.pressure / 400                  # adds more tempurature based on pressure
 
         if self.meltdownOn:
             self.change_in_temp += (self.meltdown_timer + 2000) / 200   # creates a slope to stop early meltdown escapes and make later ones possible
+
+        self.change_in_temp *= 5
 
         self.temp += self.change_in_temp / self.reduction_factor
 
