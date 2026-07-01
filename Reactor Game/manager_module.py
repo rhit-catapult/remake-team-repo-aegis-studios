@@ -23,7 +23,7 @@ class Manager():
         self.main_buttons = main_buttons
         self.power = 0
         self.reduction_factor = 4                  # higher number = slower changes
-        self.timer = 500 * 60                       # 500 seconds timer
+        self.timer = 300 * 60                       # 300 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
         self.music = music_module.Music()
         self.l_size = 0
@@ -58,7 +58,7 @@ class Manager():
                 self.active_filter = "game_over"
                 return
         
-        if self.timer == 29999:
+        if self.timer == 17999:
             # STARTUP
             self.music.set_music("startup")
 
@@ -67,7 +67,7 @@ class Manager():
                 if self.power > 3000:
                     self.victory = True
 
-        if 3000 <= self.temp < 16999 and self.timer < 27000:
+        if 3000 <= self.temp < 16999 and self.timer < 15000:
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
             self.warning = ""
