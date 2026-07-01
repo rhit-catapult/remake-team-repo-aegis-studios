@@ -6,8 +6,15 @@ class Music():
         
         self.active_music = "none"
 
+        self.alarm_meltdown = pygame.mixer.Sound("sfx/alarm3.mp3")
+        self.alarm_meltdown.set_volume(0.7)
+        self.alarm_detonation= pygame.mixer.Sound("sfx/alarm1.mp3")
+
+
     def set_music(self, new_music):
         if new_music != self.active_music:
+            self.alarm_meltdown.stop()
+            self.alarm_detonation.stop()
             if new_music == "non-operational":
                 pygame.mixer.music.fadeout(1000)
                 pygame.mixer.music.load("sound/non-operational1.mp3")
@@ -27,9 +34,7 @@ class Music():
                 pygame.mixer.music.load("sound/meltdown1.mp3")
                 self.active_music = "meltdown"
                 pygame.mixer.music.play(-1, start = 292.0)
-                self.alarm3 = pygame.mixer.Sound("sfx/alarm3.mp3")
-                self.alarm3.set_volume(0.7)
-                self.alarm3.play(-1)
+                self.alarm_meltdown.play(-1)
             if new_music == "operational":
                 pygame.mixer.music.fadeout(1000)
                 pygame.mixer.music.load("sound/operational1.mp3")
@@ -50,8 +55,7 @@ class Music():
                 pygame.mixer.music.load("sound/detonation1.mp3")
                 self.active_music = "detonation"
                 pygame.mixer.music.play(-1, start = 22.0)
-                self.alarm1 = pygame.mixer.Sound("sfx/alarm1.mp3")
-                self.alarm1.play(-1)
+                self.alarm_detonation.play(-1)
             if new_music == "shutdown":
                 pygame.mixer.music.load("sound/shutdown1.mp3")
                 self.active_music = "shutdown"

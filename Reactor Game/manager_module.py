@@ -23,7 +23,7 @@ class Manager():
         self.main_buttons = main_buttons
         self.power = 0
         self.reduction_factor = 4                  # higher number = slower changes
-        self.timer = 300 * 60                       # 300 seconds timer
+        self.timer = 200 * 60                       # 300 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
         self.music = music_module.Music()
         self.l_size = 0
@@ -58,16 +58,17 @@ class Manager():
                 self.active_filter = "game_over"
                 return
         
-        if self.timer == 17999:
+        if self.timer == 12999:
             # STARTUP
             self.music.set_music("startup")
 
         if self.timer <= 0:
-            if not self.detonationOn:
-                if self.power > 3000:
+            if not self.meltdownOn:
+                if self.power > 30000:
                     self.victory = True
+                self.game_over = True
 
-        if 3000 <= self.temp < 16999 and self.timer < 15000:
+        if 3000 <= self.temp < 16999 and self.timer < 9000:
             # OPERATIONAL MUSIC
             self.music.set_music("operational")
             self.warning = ""
@@ -165,24 +166,23 @@ class Manager():
             self.c_size -= 0.5
         self.background.core_()
         self.background.reactor_background_F_()
-        if self.power > 20000:
+        if self.power > 30000:
             self.victory = True
         self.game_over = True
 
     def e_stall(self):
         print("e_stall")
         self.background.reactor_background_B_()
-        if self.l_size > 0:
-            self.background.lasers_setup_(self.l_size)
-            self.l_size -= 0.3
         self.background.lasers_()
         self.background.laser_bases_()
         if self.c_size > 0:
             self.background.core_setup_(self.c_size)
-            self.c_size -= 1.5
+            self.c_size -= 1
         self.background.core_()
         self.background.reactor_background_F_()
         self.music.set_music("reactionstall")
+        if self.power > 30000:
+            self.victory = True
         self.game_over = True
 
     def e_start_meltdown(self):
