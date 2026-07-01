@@ -55,9 +55,9 @@ class Lever():
             self.health = 0 
         else:
             if self.lever_type == "heat":
-                self.health -= (0.1) * (self.pos + 1) / 60.
+                self.health -= (0.2) * (self.pos + 1) / 60
             else:
-                self.health -= (0.1) * self.pos / 60
+                self.health -= (0.2) * self.pos / 60
 
     def get_health(self):
         return self.health

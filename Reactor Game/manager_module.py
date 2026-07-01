@@ -22,7 +22,7 @@ class Manager():
         self.display_objects = display_objects
         self.main_buttons = main_buttons
         self.power = 0
-        self.reduction_factor = 7                  # higher number = slower changes
+        self.reduction_factor = 4                  # higher number = slower changes
         self.timer = 500 * 60                       # 500 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
         self.music = music_module.Music()
@@ -165,7 +165,7 @@ class Manager():
             self.c_size -= 0.5
         self.background.core_()
         self.background.reactor_background_F_()
-        if self.power > 3000:
+        if self.power > 20000:
             self.victory = True
         self.game_over = True
 

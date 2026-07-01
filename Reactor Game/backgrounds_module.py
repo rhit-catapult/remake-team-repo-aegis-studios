@@ -99,7 +99,7 @@ class Backgrounds():
         if victory:
             victory = "succeeded! The energy quota was met. Good work, employee."
         else:
-            victory = "failed. The energy quota was not met."
+            victory = "failed. The energy quota was not met or the reactor systems have failed."
         power_display = self.game_over_font.render("You produced " + str(int(power)) + " GW of power during the shift.", True, (0,0,0))
         time_display = self.game_over_font.render("You had " + str(int(time)) + " seconds left in the shift.", True, (0,0,0))
         victory_display = self.game_over_font.render("You " + victory, True, (0,0,0))
