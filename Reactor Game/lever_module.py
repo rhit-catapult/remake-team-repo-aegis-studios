@@ -2,7 +2,7 @@ import pygame
 
 class Lever():
     
-    def __init__(self, screen, x, handle_image_file, steps_y_list, start_pos, lever_type):
+    def __init__(self, screen, x, handle_image_file, steps_y_list, start_pos, lever_type, visibility):
         self.screen = screen
         self.x = x
         self.y = steps_y_list[start_pos]
@@ -12,6 +12,10 @@ class Lever():
         self.held = False
         self.health = 100
         self.lever_type = lever_type
+        self.visibility = visibility
+
+    def get_vis(self):
+        return self.visibility
 
     def get_position(self):
         if self.lever_type == "heat":

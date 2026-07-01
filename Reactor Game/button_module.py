@@ -2,26 +2,31 @@ import pygame
 
 class Button():
     
-    def __init__(self, screen, x, y, unpressed_image_file, pressed_image_file, toggle=False):
+    def __init__(self, screen, x, y, unpressed_image_file, pressed_image_file, mode, visibility):
         self.screen = screen
         self.x = x
         self.y = y
         self.unpressed_image = pygame.image.load(unpressed_image_file)
         self.pressed_image = pygame.image.load(pressed_image_file)
-        self.toggle = toggle
+        self.mode = mode
         self.pressed = False
+        self.visibility = visibility
+
+    def get_vis(self):
+        return self.visibility
 
     def is_pressed(self):
         return self.pressed
 
     def on_click(self):
-        if self.toggle:
+        if self.mode == "toggle":
             self.pressed = not self.pressed
-        else:
+        elif self.mode == "one_time" or self.mode == "hold":
             self.pressed = True
 
     def on_release(self):
-        pass
+        if self.mode == "hold":
+            self.pressed = False
             
     def is_clicked(self, click_x, click_y):
         hitbox = pygame.Rect(self.x, self.y, self.unpressed_image.get_width(), self.unpressed_image.get_height())

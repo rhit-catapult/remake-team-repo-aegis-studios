@@ -109,6 +109,8 @@ class Backgrounds():
         self.screen.blit(victory_display, (40, 120))
 
 
+    def menu_(self):
+        self.screen.blit(self.game_over, (0,0))
 
 
 
