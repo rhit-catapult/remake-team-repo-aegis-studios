@@ -97,16 +97,16 @@ class Backgrounds():
     def game_over_(self, alpha, power, time, victory):
         self.game_over.set_alpha(alpha)
         if victory:
-            victory = "succeeded!"
+            victory = "succeeded! The energy quota was met. Good work, employee."
         else:
-            victory = "failed."
+            victory = "failed. The energy quota was not met."
         power_display = self.game_over_font.render("You produced " + str(int(power)) + " GW of power during the shift.", True, (0,0,0))
         time_display = self.game_over_font.render("You had " + str(int(time)) + " seconds left in the shift.", True, (0,0,0))
         victory_display = self.game_over_font.render("You " + victory, True, (0,0,0))
-        self.screen.blit(self.game_over, (0,0))
-        self.screen.blit(power_display, (100,100))
-        self.screen.blit(time_display, (100, 300))
-        self.screen.blit(victory_display, (100, 500))
+        self.screen.blit(self.game_over, (0, 0))
+        self.screen.blit(power_display, (40, 40))
+        self.screen.blit(time_display, (40, 80))
+        self.screen.blit(victory_display, (40, 120))
 
 
 
