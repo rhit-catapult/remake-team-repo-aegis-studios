@@ -76,11 +76,11 @@ class Manager():
             # HIGH TEMPERATURE
             self.active_filter = ("yellow")
             self.music.set_music("hightemperature")
-            self.warning = "WARNING: HIGH TEMP"
+            self.warning = "WARNING - TEMPERATURE HIGH"
 
         if self.temp >= 27000:
             self.active_filter = ("orange")
-            self.warning = "WARNING: MELTDOWN IN PROGRESS"
+            self.warning = "ALERT - MELTDOWN IN PROGRESS"
 
         
         
@@ -165,7 +165,7 @@ class Manager():
             self.c_size -= 0.5
         self.background.core_()
         self.background.reactor_background_F_()
-        if self.power > 3000 or self.meltdownOn:
+        if self.power > 3000:
             self.victory = True
         self.game_over = True
 
@@ -217,7 +217,7 @@ class Manager():
         self.active_filter = ("red")
         self.temp = 99999
         self.pressure += 10000
-        self.warning = "CONTAINMENT FAILING, EXPLOSION IMMINENT"
+        self.warning = "CONTAINMENT FAILING - CRITICAL COLLAPSE IMMINENT"
         self.background.reactor_background_B_()
         if self.l_size < 30:
             self.background.lasers_setup_(self.l_size)
@@ -305,8 +305,8 @@ class Manager():
         self.display_objects[5].set_value(self.change_in_pressure * 60 / self.reduction_factor)
         self.display_objects[6].set_value(self.timer / 60)
         self.display_objects[7].set_value(self.warning)
-        self.display_objects[8].set_value("TIME UNTIL MELTDOWN: " + str(int(self.meltdown_timer / 60)) + " s", self.meltdownOn)
-        self.display_objects[9].set_value("TIME UNTIL EXPLOSION: " + str(int(self.detonation_timer / 60)) + " s", self.detonationOn)
+        self.display_objects[8].set_value("REMAINING TIME UNTIL FULL MELTDOWN: " + str(int(self.meltdown_timer / 60)) + " s", self.meltdownOn)
+        self.display_objects[9].set_value("REMAINING TIME UNTIL CRITICAL COLLAPSE: " + str(int(self.detonation_timer / 60)) + " s", self.detonationOn)
         
 
         for display in self.display_objects:
