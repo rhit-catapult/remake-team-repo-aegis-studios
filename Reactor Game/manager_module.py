@@ -22,7 +22,7 @@ class Manager():
         self.display_objects = display_objects
         self.main_buttons = main_buttons
         self.power = 0
-        self.reduction_factor = 33                  # higher number = slower changes
+        self.reduction_factor = 7                  # higher number = slower changes
         self.timer = 500 * 60                       # 500 seconds timer
         self.background = backgrounds_module.Backgrounds(self.screen)
         self.music = music_module.Music()
@@ -264,12 +264,10 @@ class Manager():
         for cool_lever in self.cool_levers:
             self.change_in_temp -= cool_lever.get_position() * 2
 
-        self.change_in_temp += self.pressure / 400                  # adds more tempurature based on pressure
+        self.change_in_temp += (self.pressure-3000) / 200                  # adds more tempurature based on pressure
 
         if self.meltdownOn:
             self.change_in_temp += (self.meltdown_timer + 2000) / 200   # creates a slope to stop early meltdown escapes and make later ones possible
-
-        self.change_in_temp *= 5
 
         self.temp += self.change_in_temp / self.reduction_factor
 
