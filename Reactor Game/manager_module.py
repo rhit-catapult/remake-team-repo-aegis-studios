@@ -295,6 +295,8 @@ class Manager():
             self.meltdown_timer -= 1
         if self.detonationOn:
             self.detonation_timer -= 1
+        for lever in self.cool_levers + self.heat_levers:
+            lever.tick_health()
 
     def update_displays(self):
         self.display_objects[0].set_value(self.power)
@@ -307,7 +309,27 @@ class Manager():
         self.display_objects[7].set_value(self.warning)
         self.display_objects[8].set_value("REMAINING TIME UNTIL FULL MELTDOWN: " + str(int(self.meltdown_timer / 60)) + " s", self.meltdownOn)
         self.display_objects[9].set_value("REMAINING TIME UNTIL CRITICAL COLLAPSE: " + str(int(self.detonation_timer / 60)) + " s", self.detonationOn)
-        
+        display_string = ""
+        lever_position = 0
+        for lever in self.cool_levers:
+            lever_position += 1
+            display_string += "  COOL" + str(lever_position) + ": "
+            display_string += str(int(lever.get_health()))
+        self.display_objects[10].set_value("COOLANT INTEGRITY:" + display_string)
+        display_string = ""
+        lever_position = 0
+        for lever in self.heat_levers[:3]:
+            lever_position += 1
+            display_string += "  CBL" + str(lever_position) + ": "
+            display_string += str(int(lever.get_health()))
+        self.display_objects[11].set_value("LASER INTEGRITY:" + display_string)  
+        display_string = ""
+        lever_position = 3
+        for lever in self.heat_levers[3:]:
+            lever_position += 1
+            display_string += "  CBL" + str(lever_position) + ": "
+            display_string += str(int(lever.get_health()))
+        self.display_objects[12].set_value("                             " + display_string)  
 
         for display in self.display_objects:
             display.draw()

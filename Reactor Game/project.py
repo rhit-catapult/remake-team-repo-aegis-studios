@@ -23,9 +23,9 @@ def main():
     inputs = []
 
     for heat_lever in range(6):
-        heat_list.append(lever_module.Lever(screen, 20 + 58*heat_lever, "image/heat_lever.png", heat_steps_list, 0))
+        heat_list.append(lever_module.Lever(screen, 20 + 58*heat_lever, "image/heat_lever.png", heat_steps_list, 0, "heat"))
     for cool_lever in range(3):
-        cool_list.append(lever_module.Lever(screen, 1105 + 58*cool_lever, "image/cool_lever.png", cool_steps_list, 0))
+        cool_list.append(lever_module.Lever(screen, 1105 + 58*cool_lever, "image/cool_lever.png", cool_steps_list, 0, "cool"))
     for vent in range(3):
         vent_list.append(button_module.Button(screen, 950.5 + 53*vent, 574, "image/unpressed_button.png", "image/pressed_button.png", True))
     for main_button in range(2):
@@ -51,7 +51,10 @@ def main():
         text_display_module.Text_Display(screen, 485, 20, "Remaining Shift Time: ", "time_left"),
         text_display_module.Text_Display(screen, 25, 20, ""), 
         text_display_module.Text_Display(screen, 25, 40, ""), 
-        text_display_module.Text_Display(screen, 25, 40, "") 
+        text_display_module.Text_Display(screen, 25, 40, ""),
+        text_display_module.Text_Display(screen, 25, 80, ""),
+        text_display_module.Text_Display(screen, 25, 100, ""),  
+        text_display_module.Text_Display(screen, 25, 120, "")
     ]
 
 
