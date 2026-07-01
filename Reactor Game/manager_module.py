@@ -259,7 +259,7 @@ class Manager():
         self.change_in_temp = 0
 
         for heat_lever in self.heat_levers:
-            self.change_in_temp += heat_lever.get_position() + 1
+            self.change_in_temp += heat_lever.get_position()
 
         for cool_lever in self.cool_levers:
             self.change_in_temp -= cool_lever.get_position() * 2
@@ -275,7 +275,7 @@ class Manager():
         self.change_in_pressure = 0
 
         for heat_lever in self.heat_levers:
-            self.change_in_pressure += (heat_lever.get_position() + 1) / 5   # each heat level creates 1/5 of a pressure (a maxxed lever makes 1 pressure)
+            self.change_in_pressure += heat_lever.get_position() / 5   # each heat level creates 1/5 of a pressure (a maxxed lever makes 1 pressure)
                                  
         for vent_button in self.vent_buttons:                           
             if vent_button.is_pressed():

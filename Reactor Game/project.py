@@ -52,9 +52,9 @@ def main():
         text_display_module.Text_Display(screen, 25, 20, ""), 
         text_display_module.Text_Display(screen, 25, 40, ""), 
         text_display_module.Text_Display(screen, 25, 40, ""),
-        text_display_module.Text_Display(screen, 25, 80, ""),
-        text_display_module.Text_Display(screen, 25, 100, ""),  
-        text_display_module.Text_Display(screen, 25, 120, "")
+        text_display_module.Text_Display(screen, 835, 80, ""),
+        text_display_module.Text_Display(screen, 835, 100, ""),  
+        text_display_module.Text_Display(screen, 835, 120, "")
     ]
 
 

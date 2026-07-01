@@ -51,10 +51,13 @@ class Lever():
         self.screen.blit(self.lever_image,(self.x, self.y))
         
     def tick_health(self):
-        if self.lever_type == "heat":
-            self.health -= (0.1) * (self.pos + 1) / 60.
+        if self.health <= 0:
+            self.health = 0 
         else:
-            self.health -= (0.1) * self.pos / 60
+            if self.lever_type == "heat":
+                self.health -= (0.1) * (self.pos + 1) / 60.
+            else:
+                self.health -= (0.1) * self.pos / 60
 
     def get_health(self):
         return self.health
