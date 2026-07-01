@@ -63,7 +63,7 @@ class Manager():
             self.music.set_music("startup")
 
         if self.timer <= 0:
-            if not self.meltdownOn:
+            if not self.meltdownOn and not self.detonationOn:
                 if self.power > 30000:
                     self.victory = True
                 self.game_over = True
@@ -102,7 +102,7 @@ class Manager():
                 self.e_stall()
             
             elif self.temp > 27000:
-                if not self.meltdownOn and not self.detonationOn:
+                if not self.meltdownOn and not self.detonationOn and self.timer > 1:
                     self.e_start_meltdown()
 
                 if self.meltdown_timer == 0:
@@ -290,7 +290,8 @@ class Manager():
         self.power += self.change_in_power / self.reduction_factor
 
     def advance_timer(self):
-        self.timer -= 1
+        if self.timer > 0:
+            self.timer -= 1
         if self.meltdownOn:
             self.meltdown_timer -= 1
         if self.detonationOn:
