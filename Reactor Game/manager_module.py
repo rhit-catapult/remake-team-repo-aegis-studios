@@ -184,6 +184,8 @@ class Manager():
     def e_start_meltdown(self):
         self.meltdownOn = True
         self.meltdown_timer = 3600
+        if self.pressure < 2500:
+            self.pressure = 2500
 
     def e_meltdown(self):
         self.advance_timer()
