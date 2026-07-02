@@ -89,7 +89,7 @@ class Manager():
         if self.main_buttons[0].is_pressed():  
 
             if self.main_buttons[1].is_pressed():
-                if (self.power < 3000 and self.temp > 3000) or self.meltdownOn or self.detonationOn:
+                if (self.power < 30000 and self.temp > 3000) or self.meltdownOn or self.detonationOn:
                     self.main_buttons[1].set_pressed(False)
                 else:
                     self.e_shutoff() 
