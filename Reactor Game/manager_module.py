@@ -209,7 +209,7 @@ class Manager():
 
     def e_detonation(self):
         self.active_filter = ("red")
-        self.temp = 99999
+        self.temp += 99999
         self.pressure += 10000
         self.warning = "CONTAINMENT FAILING - CRITICAL COLLAPSE IMMINENT"
         self.background.reactor_background_B_()
