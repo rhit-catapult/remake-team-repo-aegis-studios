@@ -130,13 +130,11 @@ class Manager():
 
 
     def e_inactive(self):
-        print("e_inactive")
         self.background.reactor_background_B_()
         self.background.laser_bases_()
         self.background.reactor_background_F_()
 
     def e_regular_operations(self):
-        print("e_regular_operations")
         self.advance_timer()
         self.background.reactor_background_B_()
         if self.l_size < 20:
@@ -153,7 +151,6 @@ class Manager():
     
     def e_shutoff(self):
         # INTENTIONAL SHUTDOWN
-        print("e_shutoff")
         self.temp = 0
         self.background.reactor_background_B_()
         if self.l_size > 0:
@@ -171,7 +168,6 @@ class Manager():
         self.game_over = True
 
     def e_stall(self):
-        print("e_stall")
         self.background.reactor_background_B_()
         self.background.lasers_()
         self.background.laser_bases_()
@@ -186,12 +182,10 @@ class Manager():
         self.game_over = True
 
     def e_start_meltdown(self):
-        print("e_start_meltdown")
         self.meltdownOn = True
         self.meltdown_timer = 3600
 
     def e_meltdown(self):
-        print("e_meltdown")
         self.advance_timer()
         self.background.reactor_background_B_()
         if self.l_size < 20:
@@ -208,12 +202,10 @@ class Manager():
         self.music.set_music("meltdown")
 
     def e_start_detonation(self):
-        print("e_start_detonation")
         self.detonationOn = True
         self.detonation_timer = 600
 
     def e_detonation(self):
-        print("e_detonation")
         self.active_filter = ("red")
         self.temp = 99999
         self.pressure += 10000

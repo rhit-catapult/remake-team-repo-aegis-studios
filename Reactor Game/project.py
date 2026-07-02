@@ -117,7 +117,6 @@ def main():
 
         if difficulty == 0:
             manager.apply_filters()
-        print("-----")
 
         pygame.display.update()
 

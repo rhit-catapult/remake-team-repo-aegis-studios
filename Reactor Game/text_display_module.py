@@ -9,6 +9,7 @@ class Text_Display():
         self.title = title
         self.value = 0
         self.special = special
+        self.value_font = pygame.font.SysFont("calibri", 16)
 
     def set_value(self, value, show = True):
         self.value = value
@@ -43,6 +44,5 @@ class Text_Display():
         else:
             display_value = int(self.value)
 
-        value_font = pygame.font.SysFont("calibri", 16)
-        value_display = value_font.render(self.title + str(display_value) + suffix, True, (255,255,255))
+        value_display = self.value_font.render(self.title + str(display_value) + suffix, True, (255,255,255))
         self.screen.blit(value_display, (self.x, self.y))
